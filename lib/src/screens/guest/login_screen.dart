@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../assets/styles/constants.dart';
+import 'package:film_management/assets/styles/constants.dart';
+
+import 'package:film_management/src/blocs/login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +13,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _usernameTxtController = TextEditingController();
+  final _passwordTxtController = TextEditingController();
+
+  LoginBloc _loginBloc = LoginBloc();
+
   Widget _buildUsernameLayout() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             keyboardType: TextInputType.text,
+            controller: _usernameTxtController,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -65,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             obscureText: true,
+            controller: _passwordTxtController,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -91,8 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => {
-          print('Login Button Press'),
+        onPressed: () {
+          print('press');
+          _loginBloc.processLogin(context, _usernameTxtController.text,
+              _passwordTxtController.text);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -137,6 +148,27 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       onTap: () => print('Sign Up Button Press'),
+    );
+  }
+
+  Widget _buildNote() {
+    return StreamBuilder(
+      stream: _loginBloc.loginResult,
+      builder: (context, snapshot) {
+        return Text(snapshot.hasData ? snapshot.data : "");
+      },
+    );
+  }
+
+  Widget loadingIndicator() {
+    return StreamBuilder<bool>(
+      stream: _loginBloc.isLoading,
+      builder: (context, snap) {
+        return Container(
+          child:
+              (snap.hasData && snap.data) ? CircularProgressIndicator() : null,
+        );
+      },
     );
   }
 
@@ -196,6 +228,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildPasswordLayout(),
                       _buildLoginButton(),
                       _buildSignUpButton(),
+                      _buildNote(),
+                      loadingIndicator(),
                     ],
                   ),
                 ),
