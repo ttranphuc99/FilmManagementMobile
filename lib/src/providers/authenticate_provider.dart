@@ -22,7 +22,7 @@ class AuthProvider {
 
     print("${response.statusCode}");
     print("${response.body}");
-    await Future.delayed(const Duration(seconds: 2), () => "2");
+    // await Future.delayed(const Duration(seconds: 2), () => "2");
     return response;
   }
 }

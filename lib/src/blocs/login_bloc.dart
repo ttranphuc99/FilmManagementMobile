@@ -19,8 +19,8 @@ class LoginBloc {
 
   Stream<bool> get isLoading => _isLoading.stream;
   Stream<String> get loginResult => _loginResult.stream;
-  Stream<String> get errorUsername => _errorUsername.stream;
-  Stream<String> get errorPassword => _errorPassword.stream;
+  Observable<String> get errorUsername => _errorUsername.stream;
+  Observable<String> get errorPassword => _errorPassword.stream;
 
   void processLogin(context, String username, String password) {
     _isLoading.sink.add(true);

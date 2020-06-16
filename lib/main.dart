@@ -1,3 +1,5 @@
+import 'package:film_management/src/constants/constant.dart';
+import 'package:film_management/src/screens/widgets/sidebar/sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:film_management/src/screens/guest/login_screen.dart';
@@ -11,6 +13,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AuthenticationBloc().restoreSession(AccountConstant.UNAUTHORIZE);
+
     return MaterialApp(
       home: Scaffold(
         body: createContent(),
@@ -21,11 +25,22 @@ class MyApp extends StatelessWidget {
   Widget createContent() {
     return StreamBuilder<bool>(
       stream: authBloc.isSessionValid,
-      builder: (context, AsyncSnapshot<bool> snapshoot) {
-        if (snapshoot.hasData && snapshoot.data) {
+      builder: (context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData && !snapshot.data) {
           return LoginScreen();
         }
-        return LoginScreen();
+        return StreamBuilder<int>(
+          stream: authBloc.currentRole,
+          builder: (context, AsyncSnapshot<int> snapshot){
+            if (snapshot.hasData) {
+              if (snapshot.data == AccountConstant.ROLE_DIRECTOR) {
+                return SideBarLayout();
+              }
+              return SideBarLayout();
+            }
+            return LoginScreen();
+          },
+        );
       },
     );
   }

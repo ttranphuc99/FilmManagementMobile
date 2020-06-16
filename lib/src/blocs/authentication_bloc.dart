@@ -8,10 +8,14 @@ import 'package:film_management/src/constants/constant.dart';
 
 class AuthenticationBloc {
   final PublishSubject _isSessionValid  = PublishSubject<bool>();
-  Stream<bool> get isSessionValid => _isSessionValid.stream;
+  final PublishSubject _currentRole = PublishSubject<int>();
+
+  Observable<bool> get isSessionValid => _isSessionValid.stream;
+  Observable<int> get currentRole => _currentRole.stream;
 
   void dispose() {
     _isSessionValid.close();
+    _currentRole.close();
   }
 
   void restoreSession(int role) async {
@@ -24,12 +28,13 @@ class AuthenticationBloc {
       String token = account.token;
       int roleSave = account.role;
 
-      if ((token != null && token.length > 0) || (roleSave != -1)) {
+      if ((token != null && token.length > 0)) {
         if (roleSave != role) {
           _isSessionValid.sink.add(false);
         } else {
           _isSessionValid.sink.add(true);
-        }      
+          _currentRole.sink.add(roleSave);
+        }
       } else {
         _isSessionValid.sink.add(false);
       }
@@ -40,12 +45,14 @@ class AuthenticationBloc {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("account", json.encode(account));
     _isSessionValid.sink.add(true);
+    _currentRole.sink.add(account.role);
   }
 
   void closeSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("account");
     _isSessionValid.sink.add(false);
+    _currentRole.sink.add(AccountConstant.UNAUTHORIZE);
   }
 }
 
