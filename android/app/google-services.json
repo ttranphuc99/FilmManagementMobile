@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "951435945313",
+    "firebase_url": "https://filmmanager-785d6.firebaseio.com",
+    "project_id": "filmmanager-785d6",
+    "storage_bucket": "filmmanager-785d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951435945313:android:8297d107dad1d611ac5120",
+        "android_client_info": {
+          "package_name": "com.example.film_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951435945313-j37s2lbga743pcfn9d0m29uki9n33hj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb98bR4p1f4MP09WnuP-UmsWCCOd3EDDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951435945313-j37s2lbga743pcfn9d0m29uki9n33hj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

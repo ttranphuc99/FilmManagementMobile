@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/navigation_bloc.dart';
+import 'package:film_management/src/constants/screen_routes.dart';
+import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/widgets/sidebar/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +20,8 @@ class _SideBarState extends State<SideBar>
   StreamController<bool> isSidebarOpenedStreamController;
   Stream<bool> isSidebarOpenedStream;
   StreamSink<bool> isSidebarOpenedSink;
-  final _animationDuration = const Duration(milliseconds: 500);
+  final _animationDuration = const Duration(milliseconds: 250);
+  final _authBloc = AuthenticationBloc();
 
   @override
   void initState() {
@@ -50,8 +54,43 @@ class _SideBarState extends State<SideBar>
     }
   }
 
+  Widget buildProfile() {
+    return StreamBuilder(
+      stream: _authBloc.accountProfile,
+      builder: (context, accountData) {
+        if (accountData.hasData) {
+          var account = accountData.data as Account;
+          return ListTile(
+            title: Text(
+              account.fullname?? "",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20),
+            ),
+            subtitle: Text(
+              account.username?? "",
+              style: TextStyle(
+                color: Color(0xFF1BB5FD),
+                fontSize: 15,
+              ),
+            ),
+            leading: CircleAvatar(
+              child: Icon(
+                Icons.perm_identity,
+                color: Colors.white,
+              ),
+              radius: 40,
+            ),
+          );
+        }
+        return Text("");
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _authBloc.getProfile();
     final screenWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder<bool>(
@@ -68,38 +107,16 @@ class _SideBarState extends State<SideBar>
             children: <Widget>[
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   color: Color(0xFF262AAA),
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 100,
+                        height: 50,
                       ),
-                      ListTile(
-                        title: Text(
-                          "Raph",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w800),
-                        ),
-                        subtitle: Text(
-                          "abc@gmail.com",
-                          style: TextStyle(
-                            color: Color(0xFF1BB5FD),
-                            fontSize: 20,
-                          ),
-                        ),
-                        leading: CircleAvatar(
-                          child: Icon(
-                            Icons.perm_identity,
-                            color: Colors.white,
-                          ),
-                          radius: 40,
-                        ),
-                      ),
+                      buildProfile(),
                       Divider(
-                        height: 64,
+                        height: 32,
                         thickness: 0.5,
                         color: Colors.white.withOpacity(0.3),
                         indent: 32,
@@ -110,7 +127,8 @@ class _SideBarState extends State<SideBar>
                         title: "Home",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.HomePageClickEvent);
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.HomePageClickEvent);
                         },
                       ),
                       MenuItem(
@@ -118,7 +136,8 @@ class _SideBarState extends State<SideBar>
                         title: "My Account",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyAccountClickedEvent);
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.MyAccountClickedEvent);
                         },
                       ),
                       MenuItem(
@@ -126,7 +145,8 @@ class _SideBarState extends State<SideBar>
                         title: "My Orders",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyOrdersClickEvent);
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.MyOrdersClickEvent);
                         },
                       ),
                       MenuItem(
@@ -147,6 +167,18 @@ class _SideBarState extends State<SideBar>
                       MenuItem(
                         icon: Icons.exit_to_app,
                         title: "Logout",
+                        onTap: () {
+                          BlocProvider.of<NavigationBloc>(context)
+                              .add(NavigationEvents.LogoutClickEvent);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ScreenRoute.LOGIN_SRC;
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

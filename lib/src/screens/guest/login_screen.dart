@@ -1,3 +1,5 @@
+import 'package:film_management/src/blocs/navigation_bloc.dart';
+import 'package:film_management/src/constants/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -5,7 +7,7 @@ import 'package:film_management/assets/styles/constants.dart';
 
 import 'package:film_management/src/blocs/login_bloc.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget with NavigationStates {
   @override
   State<StatefulWidget> createState() {
     return _LoginScreenState();
@@ -101,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          print('press');
+          print('btnLogin pressed');
+          FocusScope.of(context).unfocus();
           _loginBloc.processLogin(context, _usernameTxtController.text,
               _passwordTxtController.text);
         },
@@ -123,44 +126,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignUpButton() {
-    return GestureDetector(
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          ],
-        ),
-      ),
-      onTap: () => print('Sign Up Button Press'),
-    );
-  }
-
   Widget _buildNote() {
     return StreamBuilder(
       stream: _loginBloc.loginResult,
       builder: (context, snapshot) {
-        return Text(snapshot.hasData ? snapshot.data : "");
+        return Text(
+          snapshot.hasData ? snapshot.data : "",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'OpenSans',
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        );
       },
     );
   }
 
-  Widget loadingIndicator() {
+  Widget _loadingIndicator() {
     return StreamBuilder<bool>(
       stream: _loginBloc.isLoading,
       builder: (context, snap) {
@@ -174,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenRoute.hideNotificationBar();
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -227,9 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       _buildPasswordLayout(),
                       _buildLoginButton(),
-                      _buildSignUpButton(),
                       _buildNote(),
-                      loadingIndicator(),
+                      _loadingIndicator(),
                     ],
                   ),
                 ),

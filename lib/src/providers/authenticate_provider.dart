@@ -8,10 +8,10 @@ import 'package:film_management/src/providers/constants.dart';
 
 class AuthProvider {
   Future<Response> login(
-      String username, String password) async {
+      String username, String password, String deviceToken) async {
     String url = ProviderConstants.API_BASE + ProviderConstants.LOGIN;
 
-    Account account = Account(username, password);
+    Account account = Account(username, password, deviceToken);
     var body = json.encode(account.toJson());
     print(body);
     final response = await post(
@@ -23,6 +23,17 @@ class AuthProvider {
     print("${response.statusCode}");
     print("${response.body}");
     // await Future.delayed(const Duration(seconds: 2), () => "2");
+    return response;
+  }
+
+  Future<Response> logout(String token) async {
+    String url = ProviderConstants.API_BASE + ProviderConstants.LOGOUT;
+
+    final response = await get(url, headers: {"Authorization": "Bearer " + token});
+
+    print("${response.statusCode}");
+    print("${response.body}");
+
     return response;
   }
 }

@@ -9,10 +9,12 @@ class Account {
   String image;
   int role;
   String token;
+  String deviceToken;
 
-  Account(String _username, String _password)
+  Account(String _username, String _password, String _deviceToken)
       : username = _username,
         password = _password,
+        deviceToken = _deviceToken,
         id = -1;
 
   Account.fromJSON(Map<String, dynamic> json)
@@ -24,7 +26,8 @@ class Account {
         phone = json['phone'],
         image = json['image'],
         role = json['role'],
-        token = json['token'];
+        token = json['token'],
+        deviceToken = json['deviceToken'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -36,6 +39,7 @@ class Account {
         'phone': phone,
         'image': image,
         'role': role,
-        'token': token
+        'token': token,
+        'deviceToken': deviceToken
       };
 }
