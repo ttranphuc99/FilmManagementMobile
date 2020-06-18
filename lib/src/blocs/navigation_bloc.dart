@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 enum NavigationEvents {
   HomePageClickEvent,
   MyAccountClickedEvent,
-  MyOrdersClickEvent,
-  LogoutClickEvent
+  MyOrdersClickEvent
 }
 
 abstract class NavigationStates {}
@@ -38,38 +37,6 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
       case NavigationEvents.MyOrdersClickEvent:
         yield MyOrdersPage();
         break;
-      case NavigationEvents.LogoutClickEvent:
-        _logoutBloc.processLogout();
-        
-        break;
-    }
-  }
-
-  void processLogout() {
-    _logoutBloc.processLogout();
-    _logoutBloc.processResult.listen((result) { 
-      if (!result) {
-        _logoutBloc.processMessage.listen((message) {
-          _snowSnackbar(message);
-        });
-        // Navigator.popUntil(_context, ModalRoute.withName(Navigator.defaultRouteName));
-        // Navigator.push(_context, MaterialPageRoute(builder: (context) => ScreenRoute.LOGIN_SRC));
-        Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ScreenRoute.LOGIN_SRC), (route) => false);
-      } else {
-        _authBloc.closeSession();
-      }
-    });
-  }
-
-  void _snowSnackbar(String message) {
-    Scaffold.of(_context).hideCurrentSnackBar();
-
-    if (message != null && message.trim().length > 0) {
-      Scaffold.of(_context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
     }
   }
 }

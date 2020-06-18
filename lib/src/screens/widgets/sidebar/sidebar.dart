@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
+import 'package:film_management/src/blocs/logout_bloc.dart';
 import 'package:film_management/src/blocs/navigation_bloc.dart';
 import 'package:film_management/src/constants/screen_routes.dart';
 import 'package:film_management/src/models/account.dart';
@@ -22,6 +23,7 @@ class _SideBarState extends State<SideBar>
   StreamSink<bool> isSidebarOpenedSink;
   final _animationDuration = const Duration(milliseconds: 250);
   final _authBloc = AuthenticationBloc();
+  final _logoutBloc = LogoutBloc();
 
   @override
   void initState() {
@@ -168,16 +170,8 @@ class _SideBarState extends State<SideBar>
                         icon: Icons.exit_to_app,
                         title: "Logout",
                         onTap: () {
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.LogoutClickEvent);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ScreenRoute.LOGIN_SRC;
-                              },
-                            ),
-                          );
+                          print('btnLogout clicked');
+                          _logoutBloc.processLogout(context);
                         },
                       ),
                     ],
