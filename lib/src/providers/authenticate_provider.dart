@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:film_management/src/models/account.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import 'package:film_management/src/providers/constants.dart';

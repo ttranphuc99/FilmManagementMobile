@@ -1,4 +1,4 @@
-import 'package:film_management/src/blocs/director_navigation_bloc.dart';
+import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

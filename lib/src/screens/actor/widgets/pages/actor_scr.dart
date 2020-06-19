@@ -1,4 +1,4 @@
-import 'package:film_management/src/blocs/actor_navigation_bloc.dart';
+import 'package:film_management/src/blocs/actor/actor_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
 class ActorScr extends StatelessWidget with ActorNavigationStates {

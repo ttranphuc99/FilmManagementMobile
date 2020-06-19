@@ -1,4 +1,5 @@
 import 'package:film_management/src/blocs/authentication_bloc.dart';
+import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/repositories/authenticate_repo.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/constants/screen_routes.dart';
@@ -25,13 +26,13 @@ class LoginBloc {
 
     if (username == null || username.length == 0) {
       flag = true;
-      _showToast(context, "Username cannot be empty");
+      MySnackbar.showSnackbar(context, "Username cannot be empty");
       return;
     }
 
     if (password == null || password.length == 0) {
       flag = true;
-      _showToast(context, "Password cannot be empty");
+      MySnackbar.showSnackbar(context, "Password cannot be empty");
       return;
     }
 
@@ -42,17 +43,6 @@ class LoginBloc {
     }
   }
 
-  void _showToast(BuildContext context, String message) {
-    Scaffold.of(context).hideCurrentSnackBar();
-
-    if (message != null && message.trim().length > 0) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
-    }
-  }
 
   void login(context, String username, String password) async {
     _loginResult.sink.add("");

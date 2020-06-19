@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
-import 'package:film_management/src/blocs/actor_navigation_bloc.dart';
+import 'package:film_management/src/blocs/actor/actor_navigation_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_menu_item.dart';
 import 'package:flutter/material.dart';
