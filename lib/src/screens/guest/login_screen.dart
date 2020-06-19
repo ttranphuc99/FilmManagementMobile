@@ -1,4 +1,3 @@
-import 'package:film_management/src/blocs/navigation_bloc.dart';
 import 'package:film_management/src/constants/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,7 @@ import 'package:film_management/assets/styles/constants.dart';
 
 import 'package:film_management/src/blocs/login_bloc.dart';
 
-class LoginScreen extends StatefulWidget with NavigationStates {
+class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _LoginScreenState();
@@ -39,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             keyboardType: TextInputType.text,
             controller: _usernameTxtController,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFFAED581),
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -47,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.verified_user,
-                color: Colors.white,
+                color: Color(0xFFAED581),
               ),
               hintText: 'Enter username',
               hintStyle: kHintTextStyle,
@@ -77,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
             obscureText: true,
             controller: _passwordTxtController,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFFAED581),
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -85,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Color(0xFFAED581),
               ),
               hintText: 'Enter password',
               hintStyle: kHintTextStyle,
@@ -112,11 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.white,
+        color: Color(0xFFAED581),
         child: Text(
           'LOGIN',
           style: TextStyle(
-              color: Color(0xFF527DAA),
+              color: Colors.white,
               letterSpacing: 1.5,
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
@@ -148,8 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
       stream: _loginBloc.isLoading,
       builder: (context, snap) {
         return Container(
-          child:
-              (snap.hasData && snap.data) ? CircularProgressIndicator() : null,
+          child: (snap.hasData && snap.data)
+              ? CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                )
+              : null,
         );
       },
     );
@@ -171,10 +173,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                      Color(0xFFC5E1A5),
+                      Color(0xFFAED581),
+                      Color(0xFF9CCC65),
+                      Color(0xFF8BC34A),
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -194,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'Welcome back!',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',

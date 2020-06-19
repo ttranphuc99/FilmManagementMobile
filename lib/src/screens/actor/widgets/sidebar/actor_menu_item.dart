@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MenuItem extends StatelessWidget {
+class ActorMenuItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final Function onTap;
 
-  const MenuItem({Key key, this.icon, this.title, this.onTap})
+  const ActorMenuItem({Key key, this.icon, this.title, this.onTap})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class MenuItem extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: Colors.cyan,
+              color: Color(0xFFB9F6CA),
               size: 30,
             ),
             SizedBox(

@@ -2,21 +2,20 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
-import 'package:film_management/src/blocs/navigation_bloc.dart';
-import 'package:film_management/src/constants/screen_routes.dart';
+import 'package:film_management/src/blocs/actor_navigation_bloc.dart';
 import 'package:film_management/src/models/account.dart';
-import 'package:film_management/src/screens/widgets/sidebar/menu_item.dart';
+import 'package:film_management/src/screens/actor/widgets/sidebar/actor_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SideBar extends StatefulWidget {
+class ActorSideBar extends StatefulWidget {
   @override
-  _SideBarState createState() => _SideBarState();
+  _ActorSideBarState createState() => _ActorSideBarState();
 }
 
-class _SideBarState extends State<SideBar>
-    with SingleTickerProviderStateMixin<SideBar> {
+class _ActorSideBarState extends State<ActorSideBar>
+    with SingleTickerProviderStateMixin<ActorSideBar> {
   AnimationController _controller;
   StreamController<bool> isSidebarOpenedStreamController;
   Stream<bool> isSidebarOpenedStream;
@@ -72,16 +71,17 @@ class _SideBarState extends State<SideBar>
             subtitle: Text(
               account.username?? "",
               style: TextStyle(
-                color: Color(0xFF1BB5FD),
+                color: Color(0xFFB9F6CA),
                 fontSize: 15,
               ),
             ),
             leading: CircleAvatar(
               child: Icon(
                 Icons.perm_identity,
-                color: Colors.white,
+                color: Color(0xFFB9F6CA),
               ),
               radius: 40,
+              backgroundColor: Color(0xFF81C784),
             ),
           );
         }
@@ -110,7 +110,7 @@ class _SideBarState extends State<SideBar>
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  color: Color(0xFF262AAA),
+                  color: Color(0xFF00C853),
                   child: Column(
                     children: <Widget>[
                       SizedBox(
@@ -124,36 +124,23 @@ class _SideBarState extends State<SideBar>
                         indent: 32,
                         endIndent: 32,
                       ),
-                      MenuItem(
+                      ActorMenuItem(
                         icon: Icons.home,
                         title: "Home",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.HomePageClickEvent);
+                          BlocProvider.of<ActorNavigationBloc>(context)
+                              .add(ActorNavigationEvents.DashBoardEvent);
                         },
                       ),
-                      MenuItem(
+                      ActorMenuItem(
                         icon: Icons.person,
                         title: "My Account",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.MyAccountClickedEvent);
+                          BlocProvider.of<ActorNavigationBloc>(context)
+                              .add(ActorNavigationEvents.ScrEvent);
                         },
-                      ),
-                      MenuItem(
-                        icon: Icons.shopping_basket,
-                        title: "My Orders",
-                        onTap: () {
-                          onIconPress();
-                          BlocProvider.of<NavigationBloc>(context)
-                              .add(NavigationEvents.MyOrdersClickEvent);
-                        },
-                      ),
-                      MenuItem(
-                        icon: Icons.card_giftcard,
-                        title: "Wishlist",
                       ),
                       Divider(
                         height: 64,
@@ -162,11 +149,7 @@ class _SideBarState extends State<SideBar>
                         indent: 32,
                         endIndent: 32,
                       ),
-                      MenuItem(
-                        icon: Icons.settings,
-                        title: "Settings",
-                      ),
-                      MenuItem(
+                      ActorMenuItem(
                         icon: Icons.exit_to_app,
                         title: "Logout",
                         onTap: () {
@@ -189,12 +172,12 @@ class _SideBarState extends State<SideBar>
                     child: Container(
                       width: 35,
                       height: 110,
-                      color: Color(0xFF262AAA),
+                      color: Color(0xFF00C853),
                       alignment: Alignment.centerLeft,
                       child: AnimatedIcon(
                         progress: _controller.view,
                         icon: AnimatedIcons.menu_close,
-                        color: Color(0xFF1BB5FD),
+                        color: Colors.white,
                         size: 25,
                       ),
                     ),

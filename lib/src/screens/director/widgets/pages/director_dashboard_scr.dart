@@ -1,12 +1,12 @@
-import 'package:film_management/src/blocs/navigation_bloc.dart';
+import 'package:film_management/src/blocs/director_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
-class MyAccountsPage extends StatelessWidget with NavigationStates {
+class DirectorDashboardScr extends StatelessWidget with DirectorNavigationStates {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "My Accounts",
+        "HomePage of Director",
         style: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
       ),
     );

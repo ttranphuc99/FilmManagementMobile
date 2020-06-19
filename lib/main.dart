@@ -1,5 +1,6 @@
 import 'package:film_management/src/constants/constant.dart';
-import 'package:film_management/src/screens/widgets/sidebar/sidebar_layout.dart';
+import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:film_management/src/screens/guest/login_screen.dart';
@@ -34,9 +35,9 @@ class MyApp extends StatelessWidget {
           builder: (context, AsyncSnapshot<int> snapshot){
             if (snapshot.hasData) {
               if (snapshot.data == AccountConstant.ROLE_DIRECTOR) {
-                return SideBarLayout();
+                return DirectorSideBarLayout();
               }
-              return SideBarLayout();
+              return ActorSideBarLayout();
             }
             return LoginScreen();
           },

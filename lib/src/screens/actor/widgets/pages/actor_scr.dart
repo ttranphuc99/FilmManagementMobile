@@ -1,12 +1,12 @@
-import 'package:film_management/src/blocs/navigation_bloc.dart';
+import 'package:film_management/src/blocs/actor_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
-class MyOrdersPage extends StatelessWidget with NavigationStates {
+class ActorScr extends StatelessWidget with ActorNavigationStates {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "My Orders",
+        "My Accounts",
         style: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
       ),
     );
