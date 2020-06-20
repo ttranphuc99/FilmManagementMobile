@@ -10,6 +10,7 @@ class Account {
   int role;
   String token;
   String deviceToken;
+  bool status;
 
   Account(String _username, String _password, String _deviceToken)
       : username = _username,
@@ -27,6 +28,7 @@ class Account {
         image = json['image'],
         role = json['role'],
         token = json['token'],
+        status = json['status'],
         deviceToken = json['deviceToken'];
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +42,7 @@ class Account {
         'image': image,
         'role': role,
         'token': token,
+        'status': status,
         'deviceToken': deviceToken
       };
 }

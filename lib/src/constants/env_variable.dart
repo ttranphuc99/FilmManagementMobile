@@ -1,0 +1,1 @@
+const DEFAULT_AVATAR = "https://scontent-hkt1-1.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/91981234_252972269077297_2362126815126162557_n.jpg?_nc_ht=scontent-hkt1-1.cdninstagram.com&_nc_cat=101&_nc_ohc=sVoDbsgVGQQAX9H7uPF&oh=b53574d62d93980227ef183a688d9e4c&oe=5F1822BF";
