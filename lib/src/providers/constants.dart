@@ -10,6 +10,8 @@ class ProviderConstants {
 
   static const String GET_ALL_ACCOUNTS = '/api/actors';
 
+  static const String GET_ACCOUNT_BY_ID = '/api/actors/';
+
   static Future<String> getToken() async{
     final _authBloc = AuthenticationBloc();
     var account = await _authBloc.getProfile();

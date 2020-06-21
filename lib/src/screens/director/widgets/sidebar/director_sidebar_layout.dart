@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'director_sidebar.dart';
 
 class DirectorSideBarLayout extends StatelessWidget {
+  final Widget screen;
+
+  const DirectorSideBarLayout({Key key, this.screen}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,11 +16,7 @@ class DirectorSideBarLayout extends StatelessWidget {
         create: (context) => DirectorNavigationBloc(),
         child: Stack(
           children: <Widget>[
-            BlocBuilder<DirectorNavigationBloc, DirectorNavigationStates>(
-              builder: (context, navigationState) {
-                return navigationState as Widget;
-              },
-            ),
+            screen,
             DirectorSideBar(),
           ],
         ),

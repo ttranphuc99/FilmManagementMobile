@@ -4,7 +4,10 @@ import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
 import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
 import 'package:film_management/src/models/account.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_manage_actor_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_menu_item.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -129,8 +132,11 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                         title: "Dashboard",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<DirectorNavigationBloc>(context)
-                              .add(DirectorNavigationEvents.DashBoardEvent);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorDashboardScr()),
+                            ),
+                          );
                         },
                       ),
                       DirectorMenuItem(
@@ -138,8 +144,11 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                         title: "Manage Actor",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<DirectorNavigationBloc>(context)
-                              .add(DirectorNavigationEvents.ManageActorEvent);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageActorScr()),
+                            ),
+                          );
                         },
                       ),
                       Divider(

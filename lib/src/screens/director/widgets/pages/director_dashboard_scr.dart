@@ -1,7 +1,6 @@
-import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
-class DirectorDashboardScr extends StatelessWidget with DirectorNavigationStates {
+class DirectorDashboardScr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(

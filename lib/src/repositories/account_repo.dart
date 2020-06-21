@@ -7,4 +7,8 @@ class AccountRepo {
   Future<Response> getAllAccount() {
     return _accountProvider.getAllAccount();
   }
+
+  Future<Response> getAccountById(int id) {
+    return _accountProvider.getAccountById(id);
+  }
 }

@@ -1,12 +1,12 @@
-import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
 import 'package:film_management/src/blocs/director/manage_actor/list_actor_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/constants/snackbar.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_actor_detail_scr.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
-class DirectorManageActorScr extends StatefulWidget
-    with DirectorNavigationStates {
+class DirectorManageActorScr extends StatefulWidget {
   @override
   _DirectorManageActorScrState createState() => _DirectorManageActorScrState();
 }
@@ -74,13 +74,14 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
       height: 110,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onLongPress: () {
-          print("press");
-          MySnackbar.showSnackbar(context, "Long press");
-        },
         onTap: () {
-          print("tap");
-          MySnackbar.showSnackbar(context, "Tap");
+          print("tap to see detail of " + account.username);
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => DirectorSideBarLayout(screen: DirectorActorDetailScr(actorId: account.id,),)
+              ),
+            );
         },
         child: Row(
           children: <Widget>[
