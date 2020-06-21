@@ -6,16 +6,16 @@ class DirectorSideBarLayout extends StatelessWidget {
   final Widget screen;
 
   const DirectorSideBarLayout({Key key, this.screen}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-          children: <Widget>[
-            screen ?? DirectorDashboardScr(),
-            DirectorSideBar(),
-          ],
-        ),
+        children: <Widget>[
+          screen ?? DirectorDashboardScr(),
+          DirectorSideBar(),
+        ],
+      ),
     );
   }
 }
