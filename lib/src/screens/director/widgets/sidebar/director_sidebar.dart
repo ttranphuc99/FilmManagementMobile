@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
-import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_manage_actor_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_menu_item.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DirectorSideBar extends StatefulWidget {

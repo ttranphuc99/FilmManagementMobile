@@ -1,7 +1,5 @@
-import 'package:film_management/src/blocs/director/director_navigation_bloc.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'director_sidebar.dart';
 
 class DirectorSideBarLayout extends StatelessWidget {
@@ -12,15 +10,12 @@ class DirectorSideBarLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => DirectorNavigationBloc(),
-        child: Stack(
+      body: Stack(
           children: <Widget>[
-            screen,
+            screen ?? DirectorDashboardScr(),
             DirectorSideBar(),
           ],
         ),
-      ),
     );
   }
 }
