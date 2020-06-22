@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 class ListActorBloc {
   final _accountRepo = AccountRepo();
   final BuildContext _context;
+  List<Account> list;
 
   final PublishSubject<bool> _isLoading = PublishSubject<bool>();
   final PublishSubject<List<Account>> _listAccount =
@@ -29,13 +30,13 @@ class ListActorBloc {
 
     try {
       print('begin fetch');
-      
+
       var response = await _accountRepo.getAllAccount();
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
         var account;
-        var list = List<Account>();
+        list = List<Account>();
 
         for (var item in json) {
           account = Account.fromJSON(item);
@@ -51,5 +52,13 @@ class ListActorBloc {
     } finally {
       _isLoading.sink.add(false);
     }
+  }
+
+  void searchByFullname(String search) {
+    var result = list
+        .where((element) =>
+            element.fullname.toLowerCase().contains(search.toLowerCase()))
+        .toList();
+    _listAccount.sink.add(result);
   }
 }

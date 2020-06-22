@@ -1,7 +1,6 @@
 import 'package:film_management/src/blocs/director/manage_actor/list_actor_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/constants/env_variable.dart';
-import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_actor_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
@@ -19,39 +18,109 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
     _listActorBloc = ListActorBloc(context);
     _listActorBloc.loadData();
 
-    return Container(
-      height: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 48, vertical: 32),
-      child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Manage actor",
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 48, vertical: 32),
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Manage actor",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, fontSize: 28),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                TextField(
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (value) {
+                                    _listActorBloc.searchByFullname(value);
+                                  },
+                                  style: TextStyle(
+                                    color: Color(0xFF212121),
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xFFE6EE9C), width: 7.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xFFFFCCBC), width: 3.0),
+                                    ),
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    prefixIcon: Icon(
+                                      Icons.search,
+                                      color: Color(0xFF212121),
+                                    ),
+                                    hintText: 'Search by fullname...',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFF212121),
+                                      fontFamily: 'OpenSans',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      StreamBuilder(
+                        stream: _listActorBloc.listAccount,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            var listWidget = <Widget>[];
+                            
+                            if (snapshot.data.isEmpty) {
+                              return Text("Not found any actor!");
+                            }
+                            snapshot.data.forEach((account) {
+                              listWidget.add(
+                                  this._buildAccountRecord(account, context));
+                            });
+
+                            return Column(
+                              children: listWidget,
+                            );
+                          }
+                          return Text("no data yet");
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              StreamBuilder(
-                stream: _listActorBloc.listAccount,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    var listWidget = <Widget>[];
-
-                    snapshot.data.forEach((account) {
-                      listWidget
-                          .add(this._buildAccountRecord(account, context));
-                    });
-
-                    return Column(
-                      children: listWidget,
-                    );
-                  }
-                  return Text("no data yet");
-                },
-              )
-            ],
+            ),
           ),
-        ),
+          Align(
+            alignment: AlignmentDirectional.bottomEnd,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: FloatingActionButton(
+                child: Icon(Icons.add),
+                backgroundColor: Color(0xFF00C853),
+                onPressed: () {
+                  print('Clicked');
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -77,11 +146,14 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
         onTap: () {
           print("tap to see detail of " + account.username);
           Navigator.push(
-            context, 
+            context,
             MaterialPageRoute(
-              builder: (context) => DirectorSideBarLayout(screen: DirectorActorDetailScr(actorId: account.id,),)
-              ),
-            );
+                builder: (context) => DirectorSideBarLayout(
+                      screen: DirectorActorDetailScr(
+                        actorId: account.id,
+                      ),
+                    )),
+          ).then((value) => _listActorBloc.loadData());
         },
         child: Row(
           children: <Widget>[
@@ -110,14 +182,22 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
                           ),
                         ),
                       ),
-                      account.status ? Container(width: 0, height: 0,) : Align(
-                        alignment: Alignment.center,
-                        child: CircleAvatar(
-                          radius: 70,
-                          backgroundColor: Colors.grey.withOpacity(0.8),
-                          child: Icon(Icons.lock, color: Colors.white,),
-                        ),
-                      )
+                      account.status
+                          ? Container(
+                              width: 0,
+                              height: 0,
+                            )
+                          : Align(
+                              alignment: Alignment.center,
+                              child: CircleAvatar(
+                                radius: 70,
+                                backgroundColor: Colors.grey.withOpacity(0.8),
+                                child: Icon(
+                                  Icons.lock,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                 )
