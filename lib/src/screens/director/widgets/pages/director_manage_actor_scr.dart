@@ -1,6 +1,7 @@
 import 'package:film_management/src/blocs/director/manage_actor/list_actor_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/constants/env_variable.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_add_actor_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_actor_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             var listWidget = <Widget>[];
-                            
+
                             if (snapshot.data.isEmpty) {
                               return Text("Not found any actor!");
                             }
@@ -115,7 +116,13 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
                 child: Icon(Icons.add),
                 backgroundColor: Color(0xFF00C853),
                 onPressed: () {
-                  print('Clicked');
+                  print('btnAdd Clicked');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DirectorSideBarLayout(screen: DirectorAddActorScr()),
+                    ),
+                  ).then((value) => _listActorBloc.loadData());
                 },
               ),
             ),
