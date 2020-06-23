@@ -89,4 +89,26 @@ class AccountProvider {
 
     return response;
   }
+
+  Future<Response> addActor(Account account) async {
+    String url = ProviderConstants.API_BASE + ProviderConstants.GET_ALL_ACCOUNTS;
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: json.encode(account.toJson()),
+    );
+
+    await Future.delayed(const Duration(seconds: 5), () => "2");
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
 }

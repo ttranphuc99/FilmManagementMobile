@@ -12,6 +12,8 @@ class Account {
   String deviceToken;
   bool status;
 
+  Account.emptyAccount();
+
   Account(String _username, String _password, String _deviceToken)
       : username = _username,
         password = _password,

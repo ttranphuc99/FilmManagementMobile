@@ -20,4 +20,13 @@ class AccountRepo {
   Future<Response> activeAccount(Account account) {
     return _accountProvider.updateAccount(account);
   }
+
+  Future<Response> createActor(Account account) {
+    account.id = 0;
+    account.username = account.username.trim();
+    account.status = true;
+    account.password = account.username;
+
+    return _accountProvider.addActor(account);
+  }
 }
