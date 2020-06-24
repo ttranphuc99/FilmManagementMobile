@@ -14,6 +14,10 @@ class ProviderConstants {
 
   static const String UPDATE_ACCOUNT = '/api/accounts';
 
+  static const String GET_ALL_SCENARIO = '/api/scenarios';
+
+  static const String GET_SCENARIO_BY_ID = '/api/scenarios/';
+
   static Future<String> getToken() async{
     final _authBloc = AuthenticationBloc();
     var account = await _authBloc.getProfile();

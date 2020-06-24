@@ -5,6 +5,7 @@ import 'package:film_management/src/blocs/logout_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_manage_actor_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_manage_scenario.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_menu_item.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,18 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageActorScr()),
+                            ),
+                          );
+                        },
+                      ),
+                      DirectorMenuItem(
+                        icon: Icons.camera_alt,
+                        title: "Manage Scenario",
+                        onTap: () {
+                         onIconPress();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageScenario()),
                             ),
                           );
                         },
