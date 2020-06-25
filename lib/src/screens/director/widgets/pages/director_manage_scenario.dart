@@ -1,5 +1,7 @@
 import 'package:film_management/src/blocs/director/manage_scenario/list_scenario_bloc.dart';
 import 'package:film_management/src/models/scenario.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_add_scenario_scr.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
 class DirectorManageScenario extends StatefulWidget {
@@ -46,6 +48,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                                   keyboardType: TextInputType.text,
                                   onChanged: (value) {
                                     print(value);
+                                    _listScenarioBloc.searchByName(value);
                                   },
                                   style: TextStyle(
                                     color: Color(0xFF212121),
@@ -121,12 +124,12 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                 backgroundColor: Color(0xFF00C853),
                 onPressed: () {
                   print('btnAdd Clicked');
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         DirectorSideBarLayout(screen: DirectorAddActorScr()),
-                  //   ),
-                  // ).then((value) => _listActorBloc.loadData());
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DirectorSideBarLayout(screen: DirectorAddScenarioScr()),
+                    ),
+                  ).then((value) => _listScenarioBloc.getListScenario());
                 },
               ),
             ),
@@ -141,7 +144,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: Color(0xFFE6EE9C),
+        color: scenario.status != -1 ? Color(0xFFE6EE9C) : Color(0xFFFFCCBC),
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
@@ -151,7 +154,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
           ),
         ],
       ),
-      height: 130,
+      height: 170,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
@@ -176,14 +179,14 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                   child: Text(
                     scenario.name,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         color: Color(0xFF1B5E20),
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic),
                   ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Container(
                   alignment: Alignment.topLeft,
@@ -191,8 +194,23 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                     '@ ' + scenario.location,
                     style: TextStyle(
                       fontSize: 14,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Start: " +
+                        scenario.timeStart.substring(0, 10) +
+                        "  " +
+                        scenario.timeStart.substring(11),
+                    style: TextStyle(
+                      fontSize: 16,
                       color: Color(0xFF212121),
-                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
@@ -202,30 +220,18 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Start: " + scenario.timeStart,
+                    "End: " +
+                        scenario.timeEnd.substring(0, 10) +
+                        "  " +
+                        scenario.timeEnd.substring(11),
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Color(0xFF212121),
-                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "End: " + scenario.timeEnd,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF212121),
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Container(
                   alignment: Alignment.topLeft,
@@ -251,7 +257,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
     switch (status) {
       case -1:
         return "Hủy";
-      case 0: 
+      case 0:
         return "Đang chờ";
       case 1:
         return "Đang quay";

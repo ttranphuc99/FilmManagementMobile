@@ -7,4 +7,8 @@ class ScenarioRepo {
   Future<Response> getAllScenario() {
     return _provider.getAllScenario();
   }
+
+  Future<Response> getById(int id) {
+    return _provider.getScenarioById(id);
+  }
 }

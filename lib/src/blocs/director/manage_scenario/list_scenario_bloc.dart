@@ -9,6 +9,7 @@ class ListScenarioBloc {
   final _repo = ScenarioRepo();
   final PublishSubject<List<Scenario>> _list = PublishSubject<List<Scenario>>();
   final _context;
+  var listResult = List<Scenario>();
 
   ListScenarioBloc(this._context);
 
@@ -31,7 +32,7 @@ class ListScenarioBloc {
           print(item['id']);
           list.add(Scenario.fromJSON(item));
         }
-
+        listResult = list;
         _list.sink.add(list);
       } else {
         MySnackbar.showSnackbar(_context, "Error from server");
@@ -45,5 +46,13 @@ class ListScenarioBloc {
       return false;
     }
     return true;
+  }
+
+  void searchByName(String search) {
+    var result = listResult
+        .where((element) =>
+            element.name.toLowerCase().contains(search.toLowerCase()))
+        .toList();
+    _list.sink.add(result);
   }
 }
