@@ -1,5 +1,7 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:film_management/src/blocs/director/manage_scenario/add_scenario_bloc.dart';
 import 'package:film_management/src/constants/snackbar.dart';
+import 'package:film_management/src/models/my_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,6 +11,8 @@ class DirectorAddScenarioScr extends StatefulWidget {
 }
 
 class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
+  AddScenarioBloc _addBloc;
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -17,7 +21,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
 
   String timeStart;
   String timeEnd;
-  String scriptFilename;
+  MyFile script;
   int status;
 
   @override
@@ -26,11 +30,13 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
     timeStart = DateTime.now().toString().substring(0, 16);
     timeEnd = timeStart;
     status = 0;
-    scriptFilename = "";
+    script = MyFile();
   }
 
   @override
   Widget build(BuildContext context) {
+    _addBloc = AddScenarioBloc();
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -128,7 +134,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
           ),
           ListTile(
             title: Text("Script:"),
-            subtitle: Text(scriptFilename ?? ""),
+            subtitle: Text(script.filename ?? ""),
             trailing: Icon(Icons.file_upload),
             onTap: () {
               FilePicker.getFile()
@@ -142,10 +148,17 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                 }
 
                 setState(() {
-                  scriptFilename = filename;
+                  script.filename = filename;
+                  script.fileExtension = extendsion;
+                  script.file = file;
                 });
               });
             },
+          ),
+          Container(
+            child: RaisedButton(onPressed: () {
+              _addBloc.addScenario(null, script); 
+            },),
           ),
           _buildStatus(),
         ],
