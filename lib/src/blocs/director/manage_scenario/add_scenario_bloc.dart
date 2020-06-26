@@ -27,14 +27,15 @@ class AddScenarioBloc {
   Future<bool> addScenario(Scenario scenario, MyFile script) async {
     try {
       // upload file
-      print('start upload');
-      var filename = script.filename +
-          "-" +
-          DateTime.now().toString() +
-          "." +
-          script.fileExtension;
 
-      if (script != null && script.filename.isNotEmpty && script.file != null) {
+      if (script != null && script.filename != null && script.file != null) {
+        print('start upload');
+        var filename = script.filename +
+            "-" +
+            DateTime.now().toString() +
+            "." +
+            script.fileExtension;
+
         StorageReference storageReference =
             FirebaseStorage.instance.ref().child('script/' + filename);
 

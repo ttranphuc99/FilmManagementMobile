@@ -221,7 +221,13 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                     scenario.name = _nameController.text;
                     scenario.description = _descriptionController.text;
                     scenario.location = _locationController.text;
-                    scenario.recordQuantity = int.parse(_recordQuantityController.text);
+
+                    var recordQuan = 
+                    _recordQuantityController.text != null 
+                    && _recordQuantityController.text.trim().isNotEmpty ? 
+                    _recordQuantityController.text : "0";
+
+                    scenario.recordQuantity = int.parse(recordQuan);
                     scenario.timeStart = timeStart;
                     scenario.timeEnd = timeEnd;
                     scenario.status = status;
