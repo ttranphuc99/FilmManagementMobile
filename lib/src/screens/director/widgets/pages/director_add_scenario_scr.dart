@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:film_management/src/blocs/director/manage_scenario/add_scenario_bloc.dart';
 import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/models/my_file.dart';
+import 'package:film_management/src/models/scenario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -35,7 +36,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
 
   @override
   Widget build(BuildContext context) {
-    _addBloc = AddScenarioBloc();
+    _addBloc = AddScenarioBloc(context);
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -79,89 +80,159 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
   Widget _buildForm() {
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: "Name",
+      child: Theme(
+        data: ThemeData(
+          primaryColor: Color(0xFF00C853),
+        ),
+        child: Column(
+          children: [
+            TextFormField(
+              cursorColor: Color(0xFF00C853),
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: "Name",
+              ),
             ),
-          ),
-          TextFormField(
-            controller: _descriptionController,
-            decoration: InputDecoration(
-              labelText: "Description",
+            TextFormField(
+              cursorColor: Color(0xFF00C853),
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                labelText: "Description",
+              ),
             ),
-          ),
-          TextFormField(
-            controller: _locationController,
-            decoration: InputDecoration(
-              labelText: "Location",
+            TextFormField(
+              cursorColor: Color(0xFF00C853),
+              controller: _locationController,
+              decoration: InputDecoration(
+                labelText: "Location",
+              ),
             ),
-          ),
-          ListTile(
-            title: Text("Time start:"),
-            subtitle: Text(timeStart),
-            trailing: Icon(Icons.calendar_today),
-            onTap: () {
-              _pickDateTime(timeStart).then((value) => this.setState(() {
-                    timeStart = value;
-                  }));
-            },
-          ),
-          ListTile(
-            title: Text("Time end:"),
-            subtitle: Text(timeEnd),
-            trailing: Icon(Icons.calendar_today),
-            onTap: () {
-              _pickDateTime(timeEnd).then((value) => this.setState(() {
-                    timeEnd = value;
-                  }));
-            },
-          ),
-          TextFormField(
-            controller: _recordQuantityController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: "Record Quantity",
-            ),
-            validator: (value) {
-              if (int.parse(value) < 0) {
-                return "Record quantity cannot < 0";
-              }
-              return null;
-            },
-          ),
-          ListTile(
-            title: Text("Script:"),
-            subtitle: Text(script.filename ?? ""),
-            trailing: Icon(Icons.file_upload),
-            onTap: () {
-              FilePicker.getFile()
-              .then((file) {
-                var filename = file.path.substring(file.path.lastIndexOf('/') + 1);
-                var extendsion = filename.substring(filename.lastIndexOf('.') + 1);
-                
-                if (extendsion != 'pdf' && extendsion != 'doc') {
-                  MySnackbar.showSnackbar(context, "File extension is not allow");
-                  return;
+            TextFormField(
+              cursorColor: Color(0xFF00C853),
+              controller: _recordQuantityController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Record Quantity",
+              ),
+              validator: (value) {
+                if (int.parse(value) < 0) {
+                  return "Record quantity cannot < 0";
                 }
+                return null;
+              },
+            ),
+            ListTile(
+              title: Text("Time start:"),
+              subtitle: Text(timeStart),
+              trailing: Icon(
+                Icons.calendar_today,
+                color: Color(0xFF00C853),
+              ),
+              onTap: () {
+                _pickDateTime(timeStart).then((value) => this.setState(() {
+                      timeStart = value;
+                    }));
+              },
+            ),
+            ListTile(
+              title: Text("Time end:"),
+              subtitle: Text(timeEnd),
+              trailing: Icon(
+                Icons.calendar_today,
+                color: Color(0xFF00C853),
+              ),
+              onTap: () {
+                _pickDateTime(timeEnd).then((value) => this.setState(() {
+                      timeEnd = value;
+                    }));
+              },
+            ),
+            ListTile(
+              title: Text("Script:"),
+              subtitle: Text(script.filename ?? "Click to choose file"),
+              trailing: Icon(
+                Icons.file_upload,
+                color: Color(0xFF00C853),
+              ),
+              onTap: () {
+                FilePicker.getFile().then((file) {
+                  var filename =
+                      file.path.substring(file.path.lastIndexOf('/') + 1);
+                  var extendsion =
+                      filename.substring(filename.lastIndexOf('.') + 1);
 
-                setState(() {
-                  script.filename = filename;
-                  script.fileExtension = extendsion;
-                  script.file = file;
+                  if (extendsion != 'pdf' && extendsion != 'doc') {
+                    MySnackbar.showSnackbar(
+                        context, "File extension is not allow");
+                    return;
+                  }
+
+                  setState(() {
+                    script.filename = filename;
+                    script.fileExtension = extendsion;
+                    script.file = file;
+                  });
                 });
-              });
-            },
-          ),
-          Container(
-            child: RaisedButton(onPressed: () {
-              _addBloc.addScenario(null, script); 
-            },),
-          ),
-          _buildStatus(),
-        ],
+              },
+            ),
+            Container(
+              height: 25,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonTheme(
+                    minWidth: 10,
+                    buttonColor: Color(0xFF00C853),
+                    child: RaisedButton(
+                      child: Container(
+                        child: Text(
+                          "Discard this script",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        this.setState(() {
+                          script.reset();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: Text("Status:"),
+            ),
+            _buildStatus(),
+            Container(
+              child: ButtonTheme(
+                buttonColor: Color(0xFF00C853),
+                child: RaisedButton(
+                  child: Text(
+                    "ADD",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Scenario scenario = Scenario.emptyScenario();
+                    scenario.name = _nameController.text;
+                    scenario.description = _descriptionController.text;
+                    scenario.location = _locationController.text;
+                    scenario.recordQuantity = int.parse(_recordQuantityController.text);
+                    scenario.timeStart = timeStart;
+                    scenario.timeEnd = timeEnd;
+                    scenario.status = status;
+
+                    _addBloc.addScenario(scenario, script);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -172,6 +243,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
         children: [
           RadioListTile(
             value: -1,
+            activeColor: Color(0xFF00C853),
             title: Text("Hủy"),
             groupValue: status,
             onChanged: (value) {
@@ -183,6 +255,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
           ),
           RadioListTile(
             value: 0,
+            activeColor: Color(0xFF00C853),
             title: Text("Đang chờ"),
             groupValue: status,
             onChanged: (value) {
@@ -194,6 +267,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
           ),
           RadioListTile(
             value: 1,
+            activeColor: Color(0xFF00C853),
             title: Text("Đang quay"),
             groupValue: status,
             onChanged: (value) {
@@ -205,6 +279,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
           ),
           RadioListTile(
             value: 2,
+            activeColor: Color(0xFF00C853),
             title: Text("Hoàn thành"),
             groupValue: status,
             onChanged: (value) {

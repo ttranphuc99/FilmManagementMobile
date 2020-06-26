@@ -1,3 +1,4 @@
+import 'package:film_management/src/models/scenario.dart';
 import 'package:film_management/src/providers/scenario_provider.dart';
 import 'package:http/http.dart';
 
@@ -10,5 +11,9 @@ class ScenarioRepo {
 
   Future<Response> getById(int id) {
     return _provider.getScenarioById(id);
+  }
+
+  Future<Response> addScenario(Scenario scenario) {
+    return _provider.addScenario(scenario);
   }
 }

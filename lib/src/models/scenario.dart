@@ -15,7 +15,9 @@ class Scenario {
   String lastModifed;
   Account lastModifiedBy;
 
-  Scenario.emptyScenario();
+  Scenario.emptyScenario() {
+    id = 0;
+  }
 
   Scenario.fromJSON(Map<String, dynamic> json) :
     id = json['id'],
@@ -43,8 +45,8 @@ class Scenario {
     'script' : script,
     'status' : status,
     'createdTime' : createdTime,
-    'createdBy' : createdBy.toJson(),
+    'createdBy' : createdBy != null ? createdBy.toJson() : null,
     'lastModified' : lastModifed,
-    'lastModifiedBy' : lastModifiedBy.toJson()
+    'lastModifiedBy' : lastModifiedBy != null ? lastModifiedBy.toJson() : null
   };
 }
