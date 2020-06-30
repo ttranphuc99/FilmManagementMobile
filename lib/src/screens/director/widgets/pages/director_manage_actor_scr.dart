@@ -99,7 +99,7 @@ class _DirectorManageActorScrState extends State<DirectorManageActorScr> {
                               children: listWidget,
                             );
                           }
-                          return Text("no data yet");
+                          return Text("Loading...");
                         },
                       ),
                     ],

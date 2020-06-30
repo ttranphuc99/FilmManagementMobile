@@ -16,4 +16,12 @@ class ScenarioRepo {
   Future<Response> addScenario(Scenario scenario) {
     return _provider.addScenario(scenario);
   }
+
+  Future<Response> updateScenario(Scenario scenario) {
+    return _provider.updateScenario(scenario);
+  }
+
+  Future<Response> deleteScenario(int id) {
+    return _provider.deleteScenario(id);
+  }
 }

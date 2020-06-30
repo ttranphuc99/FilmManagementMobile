@@ -1,6 +1,7 @@
 import 'package:film_management/src/blocs/director/manage_scenario/list_scenario_bloc.dart';
 import 'package:film_management/src/models/scenario.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_add_scenario_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_scenario_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -159,15 +160,15 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
         behavior: HitTestBehavior.translucent,
         onTap: () {
           print("tap to see detail of " + scenario.id.toString());
-          /*Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => DirectorSideBarLayout(
-                      screen: DirectorActorDetailScr(
-                        actorId: account.id,
+                      screen: DirectorScenarioDetailScr(
+                        scenarioId: scenario.id,
                       ),
                     )),
-          ).then((value) => _listActorBloc.loadData());*/
+          ).then((value) => _listScenarioBloc.getListScenario());
         },
         child: Row(
           children: <Widget>[

@@ -54,7 +54,7 @@ class AddScenarioBloc {
       var response = await _repo.addScenario(scenario);
 
       if (response.statusCode == 201) {
-        MySnackbar.showSnackbar(_context, "Success");
+        Navigator.of(_context).pop();
       } else {
         MySnackbar.showSnackbar(_context, "Processing Data Failed from server");
         return false;

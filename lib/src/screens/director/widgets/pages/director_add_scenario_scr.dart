@@ -23,14 +23,12 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
   String timeStart;
   String timeEnd;
   MyFile script;
-  int status;
 
   @override
   void initState() {
     super.initState();
     timeStart = DateTime.now().toString().substring(0, 16);
     timeEnd = timeStart;
-    status = 0;
     script = MyFile();
   }
 
@@ -70,7 +68,7 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
     return Center(
       child: Container(
         child: Text(
-          "Scenario Detail",
+          "Add new Scenario",
           style: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
         ),
       ),
@@ -123,7 +121,8 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
             ),
             ListTile(
               title: Text("Time start:"),
-              subtitle: Text(timeStart),
+              subtitle: Text(
+                  timeStart.substring(0, 10) + " " + timeStart.substring(11)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
@@ -136,7 +135,8 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
             ),
             ListTile(
               title: Text("Time end:"),
-              subtitle: Text(timeEnd),
+              subtitle:
+                  Text(timeEnd.substring(0, 10) + " " + timeEnd.substring(11)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
@@ -202,10 +202,11 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                 ],
               ),
             ),
-            ListTile(
-              title: Text("Status:"),
+            SizedBox(height: 15,),
+            Divider(
+              thickness: 2,
             ),
-            _buildStatus(),
+            SizedBox(height: 10,),
             Container(
               child: ButtonTheme(
                 buttonColor: Color(0xFF00C853),
@@ -222,80 +223,25 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                     scenario.description = _descriptionController.text;
                     scenario.location = _locationController.text;
 
-                    var recordQuan = 
-                    _recordQuantityController.text != null 
-                    && _recordQuantityController.text.trim().isNotEmpty ? 
-                    _recordQuantityController.text : "0";
+                    var recordQuan = _recordQuantityController.text != null &&
+                            _recordQuantityController.text.trim().isNotEmpty
+                        ? _recordQuantityController.text
+                        : "0";
 
                     scenario.recordQuantity = int.parse(recordQuan);
                     scenario.timeStart = timeStart;
                     scenario.timeEnd = timeEnd;
-                    scenario.status = status;
 
-                    _addBloc.addScenario(scenario, script);
+                    this._showProcessingDialog();
+                    _addBloc.addScenario(scenario, script).then((value) {
+                      Navigator.of(context).pop();
+                    });
                   },
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatus() {
-    return Container(
-      child: Column(
-        children: [
-          RadioListTile(
-            value: -1,
-            activeColor: Color(0xFF00C853),
-            title: Text("Hủy"),
-            groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
-          ),
-          RadioListTile(
-            value: 0,
-            activeColor: Color(0xFF00C853),
-            title: Text("Đang chờ"),
-            groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
-          ),
-          RadioListTile(
-            value: 1,
-            activeColor: Color(0xFF00C853),
-            title: Text("Đang quay"),
-            groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
-          ),
-          RadioListTile(
-            value: 2,
-            activeColor: Color(0xFF00C853),
-            title: Text("Hoàn thành"),
-            groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
-          ),
-        ],
       ),
     );
   }
@@ -324,5 +270,32 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
 
     strDate = strDate + timeHour + ":" + timeMinute;
     return strDate;
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: this.context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Processing"),
+          content: Container(
+            height: 80,
+            child: Center(
+              child: Column(children: [
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Please Wait....",
+                  style: TextStyle(color: Colors.blueAccent),
+                )
+              ]),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

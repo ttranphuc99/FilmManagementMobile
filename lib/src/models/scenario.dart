@@ -26,7 +26,7 @@ class Scenario {
     location = json['location'],
     timeStart = json['timeStart'],
     timeEnd = json['timeEnd'],
-    recordQuantity = json['recordQuanrtity'],
+    recordQuantity = json['recordQuantity'],
     script = json['script'],
     status = json['status'],
     createdTime = json['createdTime'],
