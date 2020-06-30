@@ -8,7 +8,7 @@ import 'package:film_management/src/providers/constants.dart';
 class AccountProvider {
   Future<Response> getAllAccount() async {
     String url =
-        ProviderConstants.API_BASE + ProviderConstants.GET_ALL_ACCOUNTS;
+        ProviderConstants.API_BASE + ProviderConstants.GENERAL_ACTORS;
     String token = await ProviderConstants.getToken();
 
     print(url);
@@ -29,7 +29,7 @@ class AccountProvider {
 
   Future<Response> getAccountById(int id) async {
     String url = ProviderConstants.API_BASE +
-        ProviderConstants.GET_ACCOUNT_BY_ID +
+        ProviderConstants.SPECIFIC_ACTORS +
         id.toString();
     String token = await ProviderConstants.getToken();
 
@@ -51,7 +51,7 @@ class AccountProvider {
 
   Future<Response> blockAccount(int id) async {
     String url = ProviderConstants.API_BASE +
-        ProviderConstants.GET_ACCOUNT_BY_ID +
+        ProviderConstants.SPECIFIC_ACTORS +
         id.toString();
     String token = await ProviderConstants.getToken();
 
@@ -73,7 +73,7 @@ class AccountProvider {
 
   Future<Response> updateAccount(Account account) async {
     String url =
-        ProviderConstants.API_BASE + ProviderConstants.UPDATE_ACCOUNT;
+        ProviderConstants.API_BASE + ProviderConstants.GENERAL_ACCOUNTS;
     String token = await ProviderConstants.getToken();
 
     print(url);
@@ -91,7 +91,7 @@ class AccountProvider {
   }
 
   Future<Response> addActor(Account account) async {
-    String url = ProviderConstants.API_BASE + ProviderConstants.GET_ALL_ACCOUNTS;
+    String url = ProviderConstants.API_BASE + ProviderConstants.GENERAL_ACTORS;
     String token = await ProviderConstants.getToken();
 
     print(url);

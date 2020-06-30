@@ -8,15 +8,19 @@ class ProviderConstants {
   
   static const String LOGOUT = '/api/logout';
 
-  static const String GET_ALL_ACCOUNTS = '/api/actors';
+  static const String GENERAL_ACTORS = '/api/actors';
 
-  static const String GET_ACCOUNT_BY_ID = '/api/actors/';
+  static const String SPECIFIC_ACTORS = '/api/actors/';
 
-  static const String UPDATE_ACCOUNT = '/api/accounts';
+  static const String GENERAL_ACCOUNTS = '/api/accounts';
 
-  static const String GET_ALL_SCENARIO = '/api/scenarios';
+  static const String GENERAL_SCENARIOS = '/api/scenarios';
 
-  static const String GET_SCENARIO_BY_ID = '/api/scenarios/';
+  static const String SPECIFIC_SCENARIOS = '/api/scenarios/';
+
+  static const String GENERAL_EQUIPMENT = '/api/equipments';
+
+  static const String SPECIFIC_EQUIPMENT = '/api/equipments/';
 
   static Future<String> getToken() async{
     final _authBloc = AuthenticationBloc();

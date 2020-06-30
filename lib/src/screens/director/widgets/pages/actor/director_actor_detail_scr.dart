@@ -1,4 +1,3 @@
-import 'package:film_management/assets/styles/constants.dart';
 import 'package:film_management/src/blocs/director/manage_actor/actor_detail_bloc.dart';
 import 'package:film_management/src/blocs/director/manage_actor/block_actor_bloc.dart';
 import 'package:film_management/src/constants/env_variable.dart';

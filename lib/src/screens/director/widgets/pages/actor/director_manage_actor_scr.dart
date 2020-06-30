@@ -1,8 +1,8 @@
 import 'package:film_management/src/blocs/director/manage_actor/list_actor_bloc.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/constants/env_variable.dart';
-import 'package:film_management/src/screens/director/widgets/pages/director_add_actor_scr.dart';
-import 'package:film_management/src/screens/director/widgets/pages/director_actor_detail_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/actor/director_add_actor_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/actor/director_actor_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 

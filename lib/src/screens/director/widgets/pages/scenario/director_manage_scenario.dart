@@ -1,7 +1,7 @@
 import 'package:film_management/src/blocs/director/manage_scenario/list_scenario_bloc.dart';
 import 'package:film_management/src/models/scenario.dart';
-import 'package:film_management/src/screens/director/widgets/pages/director_add_scenario_scr.dart';
-import 'package:film_management/src/screens/director/widgets/pages/director_scenario_detail_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/scenario/director_add_scenario_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -208,7 +208,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                     "Start: " +
                         scenario.timeStart.substring(0, 10) +
                         "  " +
-                        scenario.timeStart.substring(11),
+                        scenario.timeStart.substring(11, 19),
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF212121),
@@ -224,7 +224,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
                     "End: " +
                         scenario.timeEnd.substring(0, 10) +
                         "  " +
-                        scenario.timeEnd.substring(11),
+                        scenario.timeEnd.substring(11, 19),
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF212121),

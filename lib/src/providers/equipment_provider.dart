@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:film_management/src/models/scenario.dart';
+import 'package:film_management/src/models/equipment.dart';
 import 'package:http/http.dart';
 
 import 'package:film_management/src/providers/constants.dart';
 
-class ScenarioProvider {
-  Future<Response> getAllScenario() async {
+class EquipmentProvider {
+  Future<Response> getAllEquipment() async {
     String url =
-        ProviderConstants.API_BASE + ProviderConstants.GENERAL_SCENARIOS;
+        ProviderConstants.API_BASE + ProviderConstants.GENERAL_EQUIPMENT;
     String token = await ProviderConstants.getToken();
 
     print(url);
@@ -27,9 +27,9 @@ class ScenarioProvider {
     return response;
   }
 
-  Future<Response> getScenarioById(int id) async {
+  Future<Response> getEquipmentById(int id) async {
     String url = ProviderConstants.API_BASE +
-        ProviderConstants.SPECIFIC_SCENARIOS +
+        ProviderConstants.SPECIFIC_EQUIPMENT +
         id.toString();
     String token = await ProviderConstants.getToken();
 
@@ -49,14 +49,13 @@ class ScenarioProvider {
     return response;
   }
 
-  Future<Response> updateScenario(Scenario scenario) async {
+  Future<Response> updateEquipment(Equipment equipment) async {
     String url = ProviderConstants.API_BASE +
-        ProviderConstants.SPECIFIC_SCENARIOS +
-        scenario.id.toString();
+        ProviderConstants.SPECIFIC_EQUIPMENT +
+        equipment.id.toString();
     String token = await ProviderConstants.getToken();
 
     print(url);
-    print(json.encode(scenario.toJSON()));
 
     final response = await put(
       url,
@@ -64,7 +63,7 @@ class ScenarioProvider {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token
       },
-      body: json.encode(scenario.toJSON()),
+      body: json.encode(equipment.toJSON()),
     );
 
     print("${response.statusCode}");
@@ -73,10 +72,10 @@ class ScenarioProvider {
     return response;
   }
 
-  Future<Response> deleteScenario(int id) async {
+  Future<Response> deleteEquipment(Equipment equipment) async {
     String url = ProviderConstants.API_BASE +
-        ProviderConstants.SPECIFIC_SCENARIOS +
-        id.toString();
+        ProviderConstants.SPECIFIC_EQUIPMENT +
+        equipment.id.toString();
     String token = await ProviderConstants.getToken();
 
     print(url);
@@ -95,9 +94,9 @@ class ScenarioProvider {
     return response;
   }
 
-  Future<Response> addScenario(Scenario scenario) async {
+  Future<Response> addEquipment(Equipment equipment) async {
     String url =
-        ProviderConstants.API_BASE + ProviderConstants.GENERAL_SCENARIOS;
+        ProviderConstants.API_BASE + ProviderConstants.GENERAL_EQUIPMENT;
     String token = await ProviderConstants.getToken();
 
     print(url);
@@ -108,7 +107,7 @@ class ScenarioProvider {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token
       },
-      body: json.encode(scenario.toJSON()),
+      body: json.encode(equipment.toJSON()),
     );
 
     print("${response.statusCode}");
