@@ -107,6 +107,12 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
               decoration: InputDecoration(
                 labelText: "Name",
               ),
+              validator: (value) {
+                if (value.trim().isEmpty) {
+                  return "Name is required";
+                }
+                return null;
+              },
             ),
             TextFormField(
               cursorColor: Color(0xFF00C853),
@@ -226,15 +232,15 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
             ),
             _buildStatus(),
             (() {
-              if (scenarioData.createdTime != null && scenarioData.createdBy != null) {
+              if (scenarioData.createdTime != null &&
+                  scenarioData.createdBy != null) {
                 return Column(
                   children: [
                     ListTile(
                       title: Text("Created Time"),
-                      subtitle: Text(
-                          scenarioData.createdTime.substring(0, 10) +
-                              " " +
-                              scenarioData.createdTime.substring(11, 19)),
+                      subtitle: Text(scenarioData.createdTime.substring(0, 10) +
+                          " " +
+                          scenarioData.createdTime.substring(11, 19)),
                     ),
                     ListTile(
                       title: Text("Created By"),
@@ -252,7 +258,8 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
               }
             }()),
             (() {
-              if (scenarioData.lastModified != null && scenarioData.lastModifiedBy != null) {
+              if (scenarioData.lastModified != null &&
+                  scenarioData.lastModifiedBy != null) {
                 return Column(
                   children: [
                     ListTile(
@@ -292,32 +299,39 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
                         ),
                       ),
                       onPressed: () {
-                        scenarioData.name = _nameController.text;
-                        scenarioData.description = _descriptionController.text;
-                        scenarioData.location = _locationController.text;
+                        if (this._formKey.currentState.validate()) {
+                          scenarioData.name = _nameController.text;
+                          scenarioData.description =
+                              _descriptionController.text;
+                          scenarioData.location = _locationController.text;
 
-                        var recordQuan = _recordQuantityController.text !=
-                                    null &&
-                                _recordQuantityController.text.trim().isNotEmpty
-                            ? _recordQuantityController.text.trim()
-                            : "0";
+                          var recordQuan =
+                              _recordQuantityController.text != null &&
+                                      _recordQuantityController.text
+                                          .trim()
+                                          .isNotEmpty
+                                  ? _recordQuantityController.text.trim()
+                                  : "0";
 
-                        scenarioData.recordQuantity = int.parse(recordQuan);
-                        scenarioData.timeStart = timeStart;
-                        scenarioData.timeEnd = timeEnd;
-                        scenarioData.status = status;
+                          scenarioData.recordQuantity = int.parse(recordQuan);
+                          scenarioData.timeStart = timeStart;
+                          scenarioData.timeEnd = timeEnd;
+                          scenarioData.status = status;
 
-                        _showProcessingDialog();
-                        _detailBloc
-                            .updateScenario(scenarioData, script, fileChanged)
-                            .then((value) {
-                          Navigator.of(context).pop();
-                        });
+                          _showProcessingDialog();
+                          _detailBloc
+                              .updateScenario(scenarioData, script, fileChanged)
+                              .then((value) {
+                            Navigator.of(context).pop();
+                          });
+                        }
                       },
                     ),
                   ),
                 ),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 Container(
                   child: ButtonTheme(
                     buttonColor: Color(0xFFF44336),
@@ -491,7 +505,8 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Confirm Active"),
-          content: new Text("Do you want to delete scence " + scenarioData.name),
+          content:
+              new Text("Do you want to delete scence " + scenarioData.name),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -505,7 +520,7 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
               onPressed: () {
                 _detailBloc.deleteScence(scenarioId).then((value) {
                   Navigator.of(context).pop();
-                });                
+                });
               },
             ),
           ],

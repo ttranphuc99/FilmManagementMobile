@@ -90,6 +90,12 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
               decoration: InputDecoration(
                 labelText: "Name",
               ),
+              validator: (value) {
+                if (value.trim().isEmpty) {
+                  return "Name is required";
+                }
+                return null;
+              },
             ),
             TextFormField(
               cursorColor: Color(0xFF00C853),
@@ -202,11 +208,15 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Divider(
               thickness: 2,
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Container(
               child: ButtonTheme(
                 buttonColor: Color(0xFF00C853),
@@ -218,24 +228,26 @@ class _DirectorAddScenarioScrState extends State<DirectorAddScenarioScr> {
                     ),
                   ),
                   onPressed: () {
-                    Scenario scenario = Scenario.emptyScenario();
-                    scenario.name = _nameController.text;
-                    scenario.description = _descriptionController.text;
-                    scenario.location = _locationController.text;
+                    if (this._formKey.currentState.validate()) {
+                      Scenario scenario = Scenario.emptyScenario();
+                      scenario.name = _nameController.text;
+                      scenario.description = _descriptionController.text;
+                      scenario.location = _locationController.text;
 
-                    var recordQuan = _recordQuantityController.text != null &&
-                            _recordQuantityController.text.trim().isNotEmpty
-                        ? _recordQuantityController.text
-                        : "0";
+                      var recordQuan = _recordQuantityController.text != null &&
+                              _recordQuantityController.text.trim().isNotEmpty
+                          ? _recordQuantityController.text
+                          : "0";
 
-                    scenario.recordQuantity = int.parse(recordQuan);
-                    scenario.timeStart = timeStart;
-                    scenario.timeEnd = timeEnd;
+                      scenario.recordQuantity = int.parse(recordQuan);
+                      scenario.timeStart = timeStart;
+                      scenario.timeEnd = timeEnd;
 
-                    this._showProcessingDialog();
-                    _addBloc.addScenario(scenario, script).then((value) {
-                      Navigator.of(context).pop();
-                    });
+                      this._showProcessingDialog();
+                      _addBloc.addScenario(scenario, script).then((value) {
+                        Navigator.of(context).pop();
+                      });
+                    }
                   },
                 ),
               ),

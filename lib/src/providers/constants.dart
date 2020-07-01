@@ -22,6 +22,12 @@ class ProviderConstants {
 
   static const String SPECIFIC_EQUIPMENT = '/api/equipments/';
 
+  static const String POST_EQUIPMENT_IMG_PRE = '/api/equipments/';
+
+  static const String POST_EQUIPMENT_IMG_POST = '/equipment-images';
+
+  static const String DELETE_EQUIPMENT_IMG = '/api/equipment-images';
+
   static Future<String> getToken() async{
     final _authBloc = AuthenticationBloc();
     var account = await _authBloc.getProfile();

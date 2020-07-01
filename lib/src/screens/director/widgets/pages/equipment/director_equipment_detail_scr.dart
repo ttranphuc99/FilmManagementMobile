@@ -1,12 +1,16 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:film_management/src/blocs/director/manage_equipment/equipment_detail_bloc.dart';
 import 'package:film_management/src/blocs/director/manage_scenario/scenario_detail_bloc.dart';
+import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/models/equipment.dart';
+import 'package:film_management/src/models/equipment_image.dart';
 import 'package:film_management/src/models/my_file.dart';
+import 'package:film_management/src/models/my_img.dart';
 import 'package:film_management/src/models/scenario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DirectorEquipmentDetailScr extends StatefulWidget {
   final equipmentId;
@@ -31,6 +35,7 @@ class _DirectorEquipmentDetailScrState
 
   bool isLoading = true;
   Equipment equipmentData;
+  List<MyImage> listImg;
 
   _DirectorEquipmentDetailScrState(this.equipmentId);
 
@@ -99,6 +104,12 @@ class _DirectorEquipmentDetailScrState
               decoration: InputDecoration(
                 labelText: "Name",
               ),
+              validator: (value) {
+                if (value.trim().isEmpty) {
+                  return "Name is required";
+                }
+                return null;
+              },
             ),
             TextFormField(
               cursorColor: Color(0xFF00C853),
@@ -112,7 +123,7 @@ class _DirectorEquipmentDetailScrState
               controller: _quantityController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: "Record Quantity",
+                labelText: "Quantity",
               ),
               validator: (value) {
                 if (int.parse(value) < 0) {
@@ -121,16 +132,25 @@ class _DirectorEquipmentDetailScrState
                 return null;
               },
             ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15),
+              alignment: Alignment.center,
+              child: Text(
+                "Images",
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            _buildListImg(),
             (() {
-              if (equipmentData.createTime != null && equipmentData.createBy != null) {
+              if (equipmentData.createTime != null &&
+                  equipmentData.createBy != null) {
                 return Column(
                   children: [
                     ListTile(
                       title: Text("Created Time"),
-                      subtitle: Text(
-                          equipmentData.createTime.substring(0, 10) +
-                              " " +
-                              equipmentData.createTime.substring(11, 19)),
+                      subtitle: Text(equipmentData.createTime.substring(0, 10) +
+                          " " +
+                          equipmentData.createTime.substring(11, 19)),
                     ),
                     ListTile(
                       title: Text("Created By"),
@@ -148,7 +168,8 @@ class _DirectorEquipmentDetailScrState
               }
             }()),
             (() {
-              if (equipmentData.lastModified != null && equipmentData.lastModifiedBy != null) {
+              if (equipmentData.lastModified != null &&
+                  equipmentData.lastModifiedBy != null) {
                 return Column(
                   children: [
                     ListTile(
@@ -188,20 +209,23 @@ class _DirectorEquipmentDetailScrState
                         ),
                       ),
                       onPressed: () {
-                        equipmentData.name = _nameController.text;
-                        equipmentData.description = _descriptionController.text;
+                        if (_formKey.currentState.validate()) {
+                          equipmentData.name = _nameController.text;
+                          equipmentData.description =
+                              _descriptionController.text;
 
-                        var quantity = _quantityController.text != null &&
-                                _quantityController.text.trim().isNotEmpty
-                            ? _quantityController.text.trim()
-                            : "0";
+                          var quantity = _quantityController.text != null &&
+                                  _quantityController.text.trim().isNotEmpty
+                              ? _quantityController.text.trim()
+                              : "0";
 
-                        equipmentData.quantity = int.parse(quantity);
+                          equipmentData.quantity = int.parse(quantity);
 
-                        _showProcessingDialog();
-                        _detailBloc.update(equipmentData).then((value) {
-                          Navigator.of(context).pop();
-                        });
+                          _showProcessingDialog();
+                          _detailBloc.update(equipmentData, listImg).then((value) {
+                            Navigator.of(context).pop();
+                          });
+                        }
                       },
                     ),
                   ),
@@ -233,6 +257,101 @@ class _DirectorEquipmentDetailScrState
     );
   }
 
+  _buildListImg() {
+    if (listImg == null)
+      return Container(
+        height: 0,
+        width: 0,
+      );
+
+    return Container(
+      child: Column(
+        children: [
+          (() {
+            var listWidget = <Widget>[];
+            for (var img in listImg) {
+              print(img.url);
+              listWidget.add(_buildEachImg(img));
+            }
+            return Column(
+              children: listWidget,
+            );
+          }()),
+          Container(
+            child: Center(
+              child: ButtonTheme(
+                buttonColor: Color(0xFF00C853),
+                child: RaisedButton(
+                  child: Text(
+                    "Add image",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    ImagePicker.pickImage(source: ImageSource.gallery).then((img) {
+                      MyImage fileImg = MyImage();
+
+                      fileImg.imgFile = img;
+                      fileImg.url = img.path;
+                      fileImg.isDelete = false;
+                      fileImg.isNew = true;
+                      
+                      this.setState(() {
+                        listImg.add(fileImg);
+                      });
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildEachImg(MyImage img) {
+    if (img.isDelete) return Container(width: 0, height: 0,);
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 5),
+          child: Center(
+            child: Container(
+              width: 230,
+              height: 230,
+              decoration: new BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(width: 1, color: Color(0xFF00C853)),
+                image: new DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  image: img.imgFile == null ? new NetworkImage(img.url) : FileImage(img.imgFile),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            onTap: () {
+              print('tap ' + listImg.indexOf(img).toString());
+              this.setState(() {
+                if (img.isNew) {
+                  listImg.removeAt(listImg.indexOf(img));
+                } else {
+                  img.isDelete = true;
+                }
+              });
+            },
+            child: Icon(Icons.close, color: Color(0xFFF44336),),
+          ),
+        ),
+      ],
+    );
+  }
+
   void loadData() async {
     _detailBloc = EquipmentDetailBloc(context);
 
@@ -245,6 +364,13 @@ class _DirectorEquipmentDetailScrState
     setState(() {
       isLoading = false;
       equipmentData = equipment;
+
+      if (equipment.listImages == null)
+        equipment.listImages = List<EquipmentImage>();
+
+      listImg = equipment.listImages
+          .map<MyImage>((img) => MyImage.fromURL(img.url, img.id))
+          .toList();
 
       _nameController.text = equipmentData.name;
       _descriptionController.text = equipmentData.description;

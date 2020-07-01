@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 
 class DirectorAddEquipmentScr extends StatefulWidget {
   @override
-  _DirectorAddEquipmentScrState createState() => _DirectorAddEquipmentScrState();
+  _DirectorAddEquipmentScrState createState() =>
+      _DirectorAddEquipmentScrState();
 }
 
 class _DirectorAddEquipmentScrState extends State<DirectorAddEquipmentScr> {
@@ -74,6 +75,12 @@ class _DirectorAddEquipmentScrState extends State<DirectorAddEquipmentScr> {
               decoration: InputDecoration(
                 labelText: "Name",
               ),
+              validator: (value) {
+                if (value.trim().isEmpty) {
+                  return "Name is required";
+                }
+                return null;
+              },
             ),
             TextFormField(
               cursorColor: Color(0xFF00C853),
@@ -96,7 +103,9 @@ class _DirectorAddEquipmentScrState extends State<DirectorAddEquipmentScr> {
                 return null;
               },
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Container(
               child: ButtonTheme(
                 buttonColor: Color(0xFF00C853),
@@ -108,21 +117,23 @@ class _DirectorAddEquipmentScrState extends State<DirectorAddEquipmentScr> {
                     ),
                   ),
                   onPressed: () {
-                    Equipment equipment = Equipment.emptyEquipment();
-                    equipment.name = _nameController.text;
-                    equipment.description = _descriptionController.text;
+                    if (_formKey.currentState.validate()) {
+                      Equipment equipment = Equipment.emptyEquipment();
+                      equipment.name = _nameController.text;
+                      equipment.description = _descriptionController.text;
 
-                    var quantity = _quantityController.text != null &&
-                            _quantityController.text.trim().isNotEmpty
-                        ? _quantityController.text
-                        : "0";
+                      var quantity = _quantityController.text != null &&
+                              _quantityController.text.trim().isNotEmpty
+                          ? _quantityController.text
+                          : "0";
 
-                    equipment.quantity = int.parse(quantity);
+                      equipment.quantity = int.parse(quantity);
 
-                    this._showProcessingDialog();
-                    _addBloc.insert(equipment).then((value) {
-                      Navigator.of(context).pop();
-                    });
+                      this._showProcessingDialog();
+                      _addBloc.insert(equipment).then((value) {
+                        Navigator.of(context).pop();
+                      });
+                    }
                   },
                 ),
               ),
