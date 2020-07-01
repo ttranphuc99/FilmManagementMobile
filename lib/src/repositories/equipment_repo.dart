@@ -21,7 +21,7 @@ class EquipmentRepo {
     return _provider.updateEquipment(equipment);
   }
 
-  Future<Response> deleteEquipment(Equipment equipment) {
-    return _provider.deleteEquipment(equipment);
+  Future<Response> deleteEquipment(num id) {
+    return _provider.deleteEquipment(id);
   }
 }

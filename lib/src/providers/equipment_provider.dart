@@ -72,10 +72,10 @@ class EquipmentProvider {
     return response;
   }
 
-  Future<Response> deleteEquipment(Equipment equipment) async {
+  Future<Response> deleteEquipment(num id) async {
     String url = ProviderConstants.API_BASE +
         ProviderConstants.SPECIFIC_EQUIPMENT +
-        equipment.id.toString();
+        id.toString();
     String token = await ProviderConstants.getToken();
 
     print(url);

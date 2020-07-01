@@ -12,7 +12,7 @@ class Scenario {
   num status;
   String createdTime;
   Account createdBy;
-  String lastModifed;
+  String lastModified;
   Account lastModifiedBy;
 
   Scenario.emptyScenario() {
@@ -31,7 +31,7 @@ class Scenario {
     status = json['status'],
     createdTime = json['createdTime'],
     createdBy = json['createdBy'] != null ? Account.fromJSON(json['createdBy']) : null,
-    lastModifed = json['lastModified'],
+    lastModified = json['lastModified'],
     lastModifiedBy = json['lastModifiedBy'] != null ? Account.fromJSON(json['lastModifiedBy']) : null;
 
   Map<String, dynamic> toJSON() => {
@@ -46,7 +46,7 @@ class Scenario {
     'status' : status,
     'createdTime' : createdTime,
     'createdBy' : createdBy != null ? createdBy.toJson() : null,
-    'lastModified' : lastModifed,
+    'lastModified' : lastModified,
     'lastModifiedBy' : lastModifiedBy != null ? lastModifiedBy.toJson() : null
   };
 }

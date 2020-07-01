@@ -225,6 +225,58 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
               title: Text("Status:"),
             ),
             _buildStatus(),
+            (() {
+              if (scenarioData.createdTime != null && scenarioData.createdBy != null) {
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text("Created Time"),
+                      subtitle: Text(
+                          scenarioData.createdTime.substring(0, 10) +
+                              " " +
+                              scenarioData.createdTime.substring(11, 19)),
+                    ),
+                    ListTile(
+                      title: Text("Created By"),
+                      subtitle: Text(scenarioData.createdBy.fullname +
+                          " - @" +
+                          scenarioData.createdBy.username),
+                    ),
+                  ],
+                );
+              } else {
+                return Container(
+                  height: 0,
+                  width: 0,
+                );
+              }
+            }()),
+            (() {
+              if (scenarioData.lastModified != null && scenarioData.lastModifiedBy != null) {
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text("Last Modified"),
+                      subtitle: Text(
+                          scenarioData.lastModified.substring(0, 10) +
+                              " " +
+                              scenarioData.lastModified.substring(11, 19)),
+                    ),
+                    ListTile(
+                      title: Text("Last Modified By"),
+                      subtitle: Text(scenarioData.lastModifiedBy.fullname +
+                          " - @" +
+                          scenarioData.lastModifiedBy.username),
+                    ),
+                  ],
+                );
+              } else {
+                return Container(
+                  height: 0,
+                  width: 0,
+                );
+              }
+            }()),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

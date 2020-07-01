@@ -2,6 +2,8 @@ import 'package:film_management/src/blocs/director/manage_equipment/list_equipme
 import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/models/equipment.dart';
 import 'package:film_management/src/screens/director/widgets/pages/actor/director_add_actor_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/equipment/director_add_equipment_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/equipment/director_equipment_detail_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -122,7 +124,7 @@ class _DirectorManageEquipmentScrState
                       .push(
                         MaterialPageRoute(
                           builder: (context) => DirectorSideBarLayout(
-                              screen: DirectorAddActorScr()),
+                              screen: DirectorAddEquipmentScr()),
                         ),
                       )
                       .then((value) => _listBloc.getList());
@@ -155,15 +157,15 @@ class _DirectorManageEquipmentScrState
         behavior: HitTestBehavior.translucent,
         onTap: () {
           print("tap to see detail of " + equipment.id.toString());
-          /*Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => DirectorSideBarLayout(
-                      screen: DirectorActorDetailScr(
-                        actorId: account.id,
+                      screen: DirectorEquipmentDetailScr(
+                        equipmentId: equipment.id,
                       ),
                     )),
-          ).then((value) => _listBloc.loadData());*/
+          ).then((value) => _listBloc.getList());
         },
         child: Row(
           children: <Widget>[

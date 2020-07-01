@@ -7,11 +7,15 @@ class Equipment {
   String description;
   int quantity;
   bool status;
-  Account createdBy;
+  Account createBy;
   String createTime;
   Account lastModifiedBy;
   String lastModified;
   List<EquipmentImage> listImages;
+
+  Equipment.emptyEquipment() {
+    id = -1;
+  }
 
   Equipment.fromJSON(Map<String, dynamic> json) : 
     id = json['id'],
@@ -19,7 +23,7 @@ class Equipment {
     description = json['description'],
     quantity = json['quantity'],
     status = json['status'],
-    createdBy = json['createdBy'] != null ? Account.fromJSON(json['createdBy']) : null,
+    createBy = json['createBy'] != null ? Account.fromJSON(json['createBy']) : null,
     createTime = json['createTime'],
     lastModified = json['lastModified'],
     lastModifiedBy = json['lastModifiedBy'] != null ? Account.fromJSON(json['lastModifiedBy']) : null,
@@ -32,7 +36,7 @@ class Equipment {
     'quantity': quantity,
     'status': status,
     'createTime' : createTime,
-    'createdBy' : createdBy != null ? createdBy.toJson() : null,
+    'createBy' : createBy != null ? createBy.toJson() : null,
     'lastModified' : lastModified,
     'lastModifiedBy' : lastModifiedBy != null ? lastModifiedBy.toJson() : null
   };
