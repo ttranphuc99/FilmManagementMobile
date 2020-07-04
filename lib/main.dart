@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
     AuthenticationBloc().restoreSession(AccountConstant.UNAUTHORIZE);
 
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color(0xFF00C853),
+      ),
       home: Scaffold(
         body: createContent(),
       ),

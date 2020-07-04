@@ -5,6 +5,8 @@ import 'package:film_management/src/models/my_file.dart';
 import 'package:film_management/src/models/scenario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DirectorScenarioDetailScr extends StatefulWidget {
   final scenarioId;
@@ -145,7 +147,7 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
             ListTile(
               title: Text("Time start:"),
               subtitle: Text(
-                  timeStart.substring(0, 10) + " " + timeStart.substring(11)),
+                  timeStart.substring(0, 10) + " " + timeStart.substring(11, 16)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
@@ -159,15 +161,33 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
             ListTile(
               title: Text("Time end:"),
               subtitle:
-                  Text(timeEnd.substring(0, 10) + " " + timeEnd.substring(11)),
+                  Text(timeEnd.substring(0, 10) + " " + timeEnd.substring(11, 16)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
               ),
               onTap: () {
-                _pickDateTime(timeEnd).then((value) => this.setState(() {
+                _pickDateTime(timeEnd).then((value) {
+                  var endFormat =
+                      value.substring(0, 10) + " " + value.substring(11, 16);
+                  var startFormat = timeStart.substring(0, 10) +
+                      " " +
+                      timeStart.substring(11, 16);
+
+                  DateTime start =
+                      DateFormat("yyyy-MM-dd hh:mm").parse(startFormat);
+                  DateTime end =
+                      DateFormat("yyyy-MM-dd hh:mm").parse(endFormat);
+
+                  if (end.isBefore(start)) {
+                    MySnackbar.showSnackbar(
+                        context, "Time End is before Time Start!");
+                  } else {
+                    this.setState(() {
                       timeEnd = value;
-                    }));
+                    });
+                  }
+                });
               },
             ),
             ListTile(
@@ -210,7 +230,7 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
                     child: RaisedButton(
                       child: Container(
                         child: Text(
-                          "Discard this script",
+                          "Discard",
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -220,6 +240,31 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
                         this.setState(() {
                           fileChanged = true;
                           script.reset();
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  ButtonTheme(
+                    minWidth: 10,
+                    buttonColor: Color(0xFF00C853),
+                    child: RaisedButton(
+                      child: Container(
+                        child: Text(
+                          "Download",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        canLaunch(script.url).then((value) {
+                          if (value) {
+                            launch(script.url);
+                          } else {
+                            MySnackbar.showSnackbar(
+                                context, "Cannot open the file.");
+                          }
                         });
                       },
                     ),
@@ -458,6 +503,7 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
 
       if (scenarioData.script != null && scenarioData.script.isNotEmpty) {
         script.filename = MyFile.getFilename(scenarioData.script);
+        script.url = scenarioData.script;
       }
 
       _nameController.text = scenarioData.name;

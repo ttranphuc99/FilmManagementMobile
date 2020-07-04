@@ -2,6 +2,7 @@ import 'package:film_management/src/blocs/director/manage_scenario/list_scenario
 import 'package:film_management/src/models/scenario.dart';
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_add_scenario_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_detail_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_info_scr.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -164,7 +165,7 @@ class _DirectorManageScenarioState extends State<DirectorManageScenario> {
             context,
             MaterialPageRoute(
                 builder: (context) => DirectorSideBarLayout(
-                      screen: DirectorScenarioDetailScr(
+                      screen: DirectorScenarioInfoScr(
                         scenarioId: scenario.id,
                       ),
                     )),
