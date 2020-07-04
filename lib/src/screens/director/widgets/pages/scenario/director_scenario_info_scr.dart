@@ -29,7 +29,9 @@ class _DirectorScenarioInfoScrState extends State<DirectorScenarioInfoScr> {
         scenarioId: scenarioId,
       ),
       DirectorScenarioEquipmentScr(),
-      DirectorScenarioActorScr()
+      DirectorScenarioActorScr(
+        scenarioId: scenarioId,
+      )
     ];
   }
 

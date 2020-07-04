@@ -1,4 +1,5 @@
 import 'package:film_management/src/models/scenario.dart';
+import 'package:film_management/src/models/scenario_actor.dart';
 import 'package:film_management/src/providers/scenario_provider.dart';
 import 'package:http/http.dart';
 
@@ -23,5 +24,25 @@ class ScenarioRepo {
 
   Future<Response> deleteScenario(int id) {
     return _provider.deleteScenario(id);
+  }
+
+  Future<Response> getListEquipmentInScenario(num scenarioId) {
+    return _provider.getListEquipmentsInScenario(scenarioId);
+  }
+
+  Future<Response> getListActorInScenario(num scenarioId) {
+    return _provider.getListActorsInScenario(scenarioId);
+  }
+
+  Future<Response> insertActorInScenario(num scenId, num actorId, ScenarioActor scenAc) {
+    return _provider.insertActorInScenario(scenId, actorId, scenAc);
+  }
+
+  Future<Response> updateActorInScenario(num scenId, num actorId, ScenarioActor scenAc) {
+    return _provider.updateActorInScenario(scenId, actorId, scenAc);
+  }
+
+  Future<Response> deleteActorInScenario(num scenId, num actorId) {
+    return _provider.deleteActorInScenario(scenId, actorId);
   }
 }

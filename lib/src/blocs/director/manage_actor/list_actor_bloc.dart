@@ -25,7 +25,7 @@ class ListActorBloc {
     _listAccount.close();
   }
 
-  void loadData() async {
+  Future<List<Account>> loadData() async {
     _isLoading.sink.add(true);
 
     try {
@@ -52,6 +52,7 @@ class ListActorBloc {
     } finally {
       _isLoading.sink.add(false);
     }
+    return list;
   }
 
   void searchByFullname(String search) {

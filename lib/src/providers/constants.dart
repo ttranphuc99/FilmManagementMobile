@@ -28,6 +28,12 @@ class ProviderConstants {
 
   static const String DELETE_EQUIPMENT_IMG = '/api/equipment-images';
 
+  static const String IN_SCENARIO = '/api/scenarios/';
+
+  static const String EQUIPMENT_IN_SCENARIO = '/equipmets';
+
+  static const String ACTOR_IN_SCENARIO = '/actors';
+
   static Future<String> getToken() async{
     final _authBloc = AuthenticationBloc();
     var account = await _authBloc.getProfile();

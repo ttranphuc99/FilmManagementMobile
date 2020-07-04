@@ -550,7 +550,7 @@ class _DirectorScenarioDetailScrState extends State<DirectorScenarioDetailScr> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Confirm Active"),
+          title: new Text("Confirm Delete"),
           content:
               new Text("Do you want to delete scence " + scenarioData.name),
           actions: <Widget>[

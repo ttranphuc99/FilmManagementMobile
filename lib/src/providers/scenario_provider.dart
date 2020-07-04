@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:film_management/src/models/scenario.dart';
+import 'package:film_management/src/models/scenario_actor.dart';
 import 'package:http/http.dart';
 
 import 'package:film_management/src/providers/constants.dart';
@@ -81,13 +82,10 @@ class ScenarioProvider {
 
     print(url);
 
-    final response = await delete(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
-      }
-    );
+    final response = await delete(url, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    });
 
     print("${response.statusCode}");
     print("${response.body}");
@@ -109,6 +107,121 @@ class ScenarioProvider {
         "Authorization": "Bearer " + token
       },
       body: json.encode(scenario.toJSON()),
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> getListEquipmentsInScenario(num scenarioId) async {
+    String url = ProviderConstants.API_BASE +
+        ProviderConstants.IN_SCENARIO +
+        scenarioId.toString() +
+        ProviderConstants.EQUIPMENT_IN_SCENARIO;
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> getListActorsInScenario(num scenarioId) async {
+    String url = ProviderConstants.API_BASE +
+        ProviderConstants.IN_SCENARIO +
+        scenarioId.toString() +
+        ProviderConstants.ACTOR_IN_SCENARIO;
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> insertActorInScenario(num scenId, num actorId, ScenarioActor scenAc) async {
+    String url = ProviderConstants.API_BASE +
+        "/api/scenarios/" +
+        scenId.toString() +
+        "/actors/" +
+        actorId.toString();
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: json.encode(scenAc.toJson())
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> updateActorInScenario(num scenId, num actorId, ScenarioActor scenAc) async {
+    String url = ProviderConstants.API_BASE +
+        "/api/scenarios/" +
+        scenId.toString() +
+        "/actors/" +
+        actorId.toString();
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: json.encode(scenAc.toJson())
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> deleteActorInScenario(num scenId, num actorId) async {
+    String url = ProviderConstants.API_BASE +
+        "/api/scenarios/" +
+        scenId.toString() +
+        "/actors/" +
+        actorId.toString();
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      }
     );
 
     print("${response.statusCode}");
