@@ -1,5 +1,6 @@
 import 'package:film_management/src/models/scenario.dart';
 import 'package:film_management/src/models/scenario_actor.dart';
+import 'package:film_management/src/models/scenario_equipment.dart';
 import 'package:film_management/src/providers/scenario_provider.dart';
 import 'package:http/http.dart';
 
@@ -34,15 +35,36 @@ class ScenarioRepo {
     return _provider.getListActorsInScenario(scenarioId);
   }
 
-  Future<Response> insertActorInScenario(num scenId, num actorId, ScenarioActor scenAc) {
+  Future<Response> insertActorInScenario(
+      num scenId, num actorId, ScenarioActor scenAc) {
     return _provider.insertActorInScenario(scenId, actorId, scenAc);
   }
 
-  Future<Response> updateActorInScenario(num scenId, num actorId, ScenarioActor scenAc) {
+  Future<Response> updateActorInScenario(
+      num scenId, num actorId, ScenarioActor scenAc) {
     return _provider.updateActorInScenario(scenId, actorId, scenAc);
   }
 
   Future<Response> deleteActorInScenario(num scenId, num actorId) {
     return _provider.deleteActorInScenario(scenId, actorId);
+  }
+
+  Future<Response> addEquipment(
+      num scenId, num equipId, ScenarioEquipment scenEquip) {
+    return _provider.addEquipment(scenId, equipId, scenEquip);
+  }
+
+  Future<Response> updateEquipment(
+      num scenId, num equipId, ScenarioEquipment scenEquip) {
+    return _provider.updateEquipment(scenId, equipId, scenEquip);
+  }
+
+  Future<Response> deleteEquipment(num scenId, num equipId) {
+    return _provider.deleteEquipment(scenId, equipId);
+  }
+
+  Future<Response> getAvailableQuantityEquipmentForScen(
+      num scenId, num equipId) {
+    return _provider.getAvailableQuantityEquipmentForScen(scenId, equipId);
   }
 }
