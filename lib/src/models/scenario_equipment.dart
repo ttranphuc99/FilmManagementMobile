@@ -13,6 +13,8 @@ class ScenarioEquipment {
   Account lastModifiedBy;
   num equipmentAvailable;
 
+  ScenarioEquipment();
+
   ScenarioEquipment.fromJson(Map<String, dynamic> json) : 
     scenario = json['scenario'] != null ? Scenario.fromJSON(json['scenario']) : null,
     equipment = json['equipment'] != null ? Equipment.fromJSON(json['equipment']) : null,

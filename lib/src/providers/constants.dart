@@ -30,7 +30,7 @@ class ProviderConstants {
 
   static const String IN_SCENARIO = '/api/scenarios/';
 
-  static const String EQUIPMENT_IN_SCENARIO = '/equipmets';
+  static const String EQUIPMENT_IN_SCENARIO = '/equipments';
 
   static const String ACTOR_IN_SCENARIO = '/actors';
 

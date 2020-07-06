@@ -1,6 +1,6 @@
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_actor_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_detail_scr.dart';
-import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_euipment_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/scenario/director_scenario_equipment_scr.dart';
 import 'package:flutter/material.dart';
 
 class DirectorScenarioInfoScr extends StatefulWidget {
@@ -28,7 +28,9 @@ class _DirectorScenarioInfoScrState extends State<DirectorScenarioInfoScr> {
       DirectorScenarioDetailScr(
         scenarioId: scenarioId,
       ),
-      DirectorScenarioEquipmentScr(),
+      DirectorScenarioEquipmentScr(
+        scenarioId: scenarioId,
+      ),
       DirectorScenarioActorScr(
         scenarioId: scenarioId,
       )
