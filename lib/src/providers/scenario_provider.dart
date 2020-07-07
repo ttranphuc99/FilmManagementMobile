@@ -314,4 +314,23 @@ class ScenarioProvider {
     print("${response.body}");
     return response;
   }
+
+  Future<Response> getListScenOfActor() async {
+    String url = ProviderConstants.API_BASE + "/api/actors/scenarios";
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
 }

@@ -35,4 +35,66 @@ class AuthProvider {
 
     return response;
   }
+
+  Future<Response> getProfile() async {
+    String url = ProviderConstants.API_BASE + "/api/profile";
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> changePassword(String password) async {
+    String url = ProviderConstants.API_BASE + "/api/change-password";
+    String token = await ProviderConstants.getToken();
+
+    Account account = Account.emptyAccount();
+    account.password = password;
+
+    print(url);
+
+    final response = await post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: json.encode(account.toJson())
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
+  Future<Response> update(Account account) async {
+    String url = ProviderConstants.API_BASE + "/api/profile";
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: json.encode(account.toJson())
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
 }

@@ -67,4 +67,8 @@ class ScenarioRepo {
       num scenId, num equipId) {
     return _provider.getAvailableQuantityEquipmentForScen(scenId, equipId);
   }
+
+  Future<Response> getListScenOfActor() {
+    return _provider.getListScenOfActor();
+  }
 }

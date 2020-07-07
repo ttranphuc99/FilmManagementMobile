@@ -1,26 +1,22 @@
-import 'package:film_management/src/blocs/actor/actor_navigation_bloc.dart';
+import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'actor_sidebar.dart';
 
 class ActorSideBarLayout extends StatelessWidget {
+  final Widget screen;
+
+  const ActorSideBarLayout({Key key, this.screen}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => ActorNavigationBloc(),
-        child: Stack(
-          children: <Widget>[
-            BlocBuilder<ActorNavigationBloc, ActorNavigationStates>(
-              builder: (context, navigationState) {
-                return navigationState as Widget;
-              },
-            ),
-            ActorSideBar(),
-          ],
-        ),
-      ),
+      body: Stack(
+        children: <Widget>[
+          screen ?? ActorDashboardScr(),
+          ActorSideBar()
+        ],
+      )
     );
   }
 }

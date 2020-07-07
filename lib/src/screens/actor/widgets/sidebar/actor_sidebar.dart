@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
-import 'package:film_management/src/blocs/actor/actor_navigation_bloc.dart';
 import 'package:film_management/src/models/account.dart';
+import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_menu_item.dart';
+import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -129,17 +130,11 @@ class _ActorSideBarState extends State<ActorSideBar>
                         title: "Home",
                         onTap: () {
                           onIconPress();
-                          BlocProvider.of<ActorNavigationBloc>(context)
-                              .add(ActorNavigationEvents.DashBoardEvent);
-                        },
-                      ),
-                      ActorMenuItem(
-                        icon: Icons.person,
-                        title: "My Account",
-                        onTap: () {
-                          onIconPress();
-                          BlocProvider.of<ActorNavigationBloc>(context)
-                              .add(ActorNavigationEvents.ScrEvent);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ActorSideBarLayout(screen: ActorDashboardScr()),
+                            ),
+                          );
                         },
                       ),
                       Divider(

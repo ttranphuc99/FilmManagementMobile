@@ -1,7 +1,6 @@
-import 'package:film_management/src/blocs/actor/actor_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
-class ActorDashboardScr extends StatelessWidget with ActorNavigationStates {
+class ActorDashboardScr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(

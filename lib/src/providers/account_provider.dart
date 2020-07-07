@@ -105,8 +105,6 @@ class AccountProvider {
       body: json.encode(account.toJson()),
     );
 
-    await Future.delayed(const Duration(seconds: 5), () => "2");
-
     print("${response.statusCode}");
     print("${response.body}");
     return response;
