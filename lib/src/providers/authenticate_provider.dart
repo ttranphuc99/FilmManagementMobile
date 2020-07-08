@@ -79,12 +79,12 @@ class AuthProvider {
   }
 
   Future<Response> update(Account account) async {
-    String url = ProviderConstants.API_BASE + "/api/profile";
+    String url = ProviderConstants.API_BASE + "/api/accounts";
     String token = await ProviderConstants.getToken();
 
     print(url);
 
-    final response = await post(
+    final response = await put(
       url,
       headers: {
         "Content-Type": "application/json",

@@ -6,11 +6,11 @@ import 'package:film_management/src/repositories/scenario_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ProfileBloc {
+class ActorListScenarioBloc {
   final BuildContext _context;
   ScenarioRepo _repo = ScenarioRepo();
 
-  ProfileBloc(this._context);
+  ActorListScenarioBloc(this._context);
 
   PublishSubject<ScenarioActor> _listScen = PublishSubject<ScenarioActor>();
 

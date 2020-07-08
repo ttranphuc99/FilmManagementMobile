@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
+import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/actor/director_manage_actor_scr.dart';
@@ -66,25 +67,26 @@ class _DirectorSideBarState extends State<DirectorSideBar>
           var account = accountData.data as Account;
           return ListTile(
             title: Text(
-              account.fullname?? "",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20),
+              account.fullname ?? "",
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
-              account.username?? "",
+              account.username ?? "",
               style: TextStyle(
                 color: Color(0xFFB9F6CA),
                 fontSize: 15,
               ),
             ),
-            leading: CircleAvatar(
-              child: Icon(
-                Icons.perm_identity,
-                color: Color(0xFFB9F6CA),
+            leading: Container(
+              width: 60,
+              height: 60,
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                image: new DecorationImage(
+                  fit: BoxFit.fill,
+                  image: new NetworkImage(account.image ?? DEFAULT_AVATAR),
+                ),
               ),
-              radius: 40,
-              backgroundColor: Color(0xFF81C784),
             ),
           );
         }
@@ -132,11 +134,13 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                         title: "Dashboard",
                         onTap: () {
                           onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorDashboardScr()),
-                            ),
-                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DirectorSideBarLayout(
+                                    screen: DirectorDashboardScr()),
+                              ),
+                              (route) => false);
                         },
                       ),
                       DirectorMenuItem(
@@ -146,7 +150,9 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                           onIconPress();
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageActorScr()),
+                            MaterialPageRoute(
+                              builder: (context) => DirectorSideBarLayout(
+                                  screen: DirectorManageActorScr()),
                             ),
                           );
                         },
@@ -155,10 +161,12 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                         icon: Icons.camera_alt,
                         title: "Manage Scenario",
                         onTap: () {
-                         onIconPress();
+                          onIconPress();
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageScenario()),
+                            MaterialPageRoute(
+                              builder: (context) => DirectorSideBarLayout(
+                                  screen: DirectorManageScenario()),
                             ),
                           );
                         },
@@ -167,10 +175,12 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                         icon: Icons.highlight,
                         title: "Manage Equipment",
                         onTap: () {
-                         onIconPress();
+                          onIconPress();
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DirectorSideBarLayout(screen: DirectorManageEquipmentScr()),
+                            MaterialPageRoute(
+                              builder: (context) => DirectorSideBarLayout(
+                                  screen: DirectorManageEquipmentScr()),
                             ),
                           );
                         },

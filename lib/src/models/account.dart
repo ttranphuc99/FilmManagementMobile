@@ -44,7 +44,7 @@ class Account {
         'image': image,
         'role': role,
         'token': token,
-        'status': status,
+        'status': status != null ? status : true,
         'deviceToken': deviceToken
       };
 }

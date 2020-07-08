@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/models/my_img.dart';
@@ -39,6 +40,7 @@ class ProfileBloc {
     } catch (e) {
       print(e);
       MySnackbar.showSnackbar(_context, "Error processing");
+      throw(e);
     }
     return null;
   }
@@ -46,7 +48,7 @@ class ProfileBloc {
   Future<bool> update(Account account, MyImage avatar) async {
     try {
       //upload img
-      if (avatar.isNew) {
+      if (avatar.isNew & !avatar.isDelete) {
         StorageReference storageReference;
         StorageUploadTask uploadTask;
         var filename = avatar.imgFile.path
@@ -62,11 +64,17 @@ class ProfileBloc {
         });
       }
 
-      account.image = avatar.url;
+      if (avatar.isDelete) {
+        account.image = null;
+      } else {
+        account.image = avatar.url;
+      }
 
       var response = await _repo.update(account);
 
       if (response.statusCode == 200) {
+        AuthenticationBloc authBloc = AuthenticationBloc();
+        authBloc.updateSession(account);
         return true;
       } else {
         MySnackbar.showSnackbar(_context, "Error processing from server");

@@ -2,11 +2,11 @@ import 'package:film_management/src/constants/snackbar.dart';
 import 'package:film_management/src/repositories/authenticate_repo.dart';
 import 'package:flutter/cupertino.dart';
 
-class ProfileBloc {
+class ChangePassBloc {
   final BuildContext _context;
   AuthRepository _repo = AuthRepository();
 
-  ProfileBloc(this._context);
+  ChangePassBloc(this._context);
 
   Future<bool> changePass(String password) async {
     try {

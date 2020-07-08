@@ -65,6 +65,22 @@ class AuthenticationBloc {
     _currentRole.sink.add(account.role);
   }
 
+  void updateSession(Account newAccount) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("account") != null) {
+      Account account =
+          Account.fromJSON(json.decode(prefs.getString("account")));
+
+      account.fullname = newAccount.fullname;
+      account.phone = newAccount.phone;
+      account.image = newAccount.image;
+      account.email = newAccount.email;
+      account.description = newAccount.description;
+
+      await prefs.setString("account", json.encode(account));
+    }
+  }
+
   void closeSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("account");

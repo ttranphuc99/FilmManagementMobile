@@ -14,5 +14,8 @@ class MyImage {
     isDelete = false;
   }
 
-  MyImage();
+  MyImage() {
+    isNew = false;
+    isDelete = false;
+  }
 }

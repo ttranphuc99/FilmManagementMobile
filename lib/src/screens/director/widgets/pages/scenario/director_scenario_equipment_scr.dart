@@ -128,7 +128,7 @@ class _DirectorScenarioEquipmentScrState
           ),
         ],
       ),
-      height: 150,
+      height: 110,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
@@ -160,20 +160,6 @@ class _DirectorScenarioEquipmentScrState
                     'Quantity: ' + equipScen.quantity.toString(),
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF212121),
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 280,
-                  child: Text(
-                    equipScen.description,
-                    style: TextStyle(
-                      fontSize: 12,
                       color: Color(0xFF212121),
                       fontWeight: FontWeight.w300,
                     ),
@@ -354,7 +340,7 @@ class _DirectorScenarioEquipmentScrState
                       });
                     } else {
                       await this._validateQuantity(_quantityController.text,
-                          this.currentEquipmentChoose.id);
+                        this.currentEquipmentChoose.id);
                     }
 
                     if (_formKey.currentState.validate() &&

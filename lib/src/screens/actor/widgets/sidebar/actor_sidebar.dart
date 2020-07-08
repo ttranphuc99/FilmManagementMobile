@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
+import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/models/account.dart';
+import 'package:film_management/src/screens/actor/widgets/pages/actor_change_pass_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
+import 'package:film_management/src/screens/actor/widgets/pages/actor_profile_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_menu_item.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ActorSideBar extends StatefulWidget {
@@ -62,27 +64,40 @@ class _ActorSideBarState extends State<ActorSideBar>
       builder: (context, accountData) {
         if (accountData.hasData) {
           var account = accountData.data as Account;
-          return ListTile(
-            title: Text(
-              account.fullname?? "",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20),
-            ),
-            subtitle: Text(
-              account.username?? "",
-              style: TextStyle(
-                color: Color(0xFFB9F6CA),
-                fontSize: 15,
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ActorSideBarLayout(screen: ActorProfileScr()),
+                ),
+              );
+            },
+            child: ListTile(
+              title: Text(
+                account.fullname ?? "",
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-            ),
-            leading: CircleAvatar(
-              child: Icon(
-                Icons.perm_identity,
-                color: Color(0xFFB9F6CA),
+              subtitle: Text(
+                account.username ?? "",
+                style: TextStyle(
+                  color: Color(0xFFB9F6CA),
+                  fontSize: 15,
+                ),
               ),
-              radius: 40,
-              backgroundColor: Color(0xFF81C784),
+              leading: Container(
+                width: 60,
+                height: 60,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                    fit: BoxFit.fill,
+                    image: new NetworkImage(account.image ?? DEFAULT_AVATAR),
+                  ),
+                ),
+              ),
             ),
           );
         }
@@ -130,11 +145,13 @@ class _ActorSideBarState extends State<ActorSideBar>
                         title: "Home",
                         onTap: () {
                           onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ActorSideBarLayout(screen: ActorDashboardScr()),
-                            ),
-                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ActorSideBarLayout(
+                                    screen: ActorDashboardScr()),
+                              ),
+                              (route) => false);
                         },
                       ),
                       Divider(
@@ -143,6 +160,20 @@ class _ActorSideBarState extends State<ActorSideBar>
                         color: Colors.white.withOpacity(0.3),
                         indent: 32,
                         endIndent: 32,
+                      ),
+                      ActorMenuItem(
+                        icon: Icons.lock_open,
+                        title: "Change password",
+                        onTap: () {
+                          onIconPress();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ActorSideBarLayout(
+                                  screen: ActorChangePassScr()),
+                            ),
+                          );
+                        },
                       ),
                       ActorMenuItem(
                         icon: Icons.exit_to_app,
