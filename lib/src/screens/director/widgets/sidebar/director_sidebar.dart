@@ -84,7 +84,7 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                 shape: BoxShape.circle,
                 image: new DecorationImage(
                   fit: BoxFit.fill,
-                  image: new NetworkImage(account.image ?? DEFAULT_AVATAR),
+                  image: new NetworkImage(account.image != null && account.image.isNotEmpty ? account.image : DEFAULT_AVATAR),
                 ),
               ),
             ),

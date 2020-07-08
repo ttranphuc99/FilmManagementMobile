@@ -90,6 +90,24 @@ class AccountProvider {
     return response;
   }
 
+  Future<Response> activeAccount(int id) async {
+    String url =
+        ProviderConstants.API_BASE + "/api/actors/" + id.toString() + "/active";
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    return response;
+  }
+
   Future<Response> addActor(Account account) async {
     String url = ProviderConstants.API_BASE + ProviderConstants.GENERAL_ACTORS;
     String token = await ProviderConstants.getToken();

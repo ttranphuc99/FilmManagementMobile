@@ -17,8 +17,8 @@ class AccountRepo {
     return _accountProvider.blockAccount(id);
   }
 
-  Future<Response> activeAccount(Account account) {
-    return _accountProvider.updateAccount(account);
+  Future<Response> activeAccount(int id) {
+    return _accountProvider.activeAccount(id);
   }
 
   Future<Response> createActor(Account account) {

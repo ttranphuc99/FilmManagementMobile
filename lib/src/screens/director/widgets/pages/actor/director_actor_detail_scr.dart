@@ -356,7 +356,7 @@ class _DirectorActorDetailScrState extends State<DirectorActorDetailScr> {
               onPressed: () async {
                 account.status = true;
                 final _blockAccBloc = BlockActorBloc(this.context);
-                var result = await _blockAccBloc.activeAccount(account);
+                var result = await _blockAccBloc.activeAccount(account.id);
 
                 if (result) {
                   _actorDetailBloc.fetchData(account.id);

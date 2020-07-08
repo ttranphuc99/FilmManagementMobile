@@ -45,11 +45,11 @@ class BlockActorBloc {
     return result;
   }
 
-  Future<bool> activeAccount(Account account) async {
+  Future<bool> activeAccount(num id) async {
     _isLoading.sink.add(true);
     bool result = false;
     try {
-      var response = await _accountRepo.activeAccount(account);
+      var response = await _accountRepo.activeAccount(id);
 
       if (response.statusCode == 200) {
         _isSuccess.sink.add(true);
