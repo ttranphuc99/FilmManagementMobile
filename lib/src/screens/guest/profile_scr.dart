@@ -4,15 +4,23 @@ import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/models/my_img.dart';
 import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ActorProfileScr extends StatefulWidget {
+class ProfileScr extends StatefulWidget {
+  final bool isAdmin;
+
+  const ProfileScr({Key key, this.isAdmin}) : super(key: key);
+
   @override
-  _ActorProfileScrState createState() => _ActorProfileScrState();
+  _ProfileScrState createState() => _ProfileScrState(isAdmin);
 }
 
-class _ActorProfileScrState extends State<ActorProfileScr> {
+class _ProfileScrState extends State<ProfileScr> {
+  final isAdmin;
+
   final _formKey = GlobalKey<FormState>();
   final _fullnameTxt = TextEditingController();
   final _descriptionTxt = TextEditingController();
@@ -21,6 +29,8 @@ class _ActorProfileScrState extends State<ActorProfileScr> {
   MyImage avatar;
   ProfileBloc _bloc;
   Account profile = Account.emptyAccount();
+
+  _ProfileScrState(this.isAdmin);
 
   @override
   void initState() {
@@ -105,7 +115,7 @@ class _ActorProfileScrState extends State<ActorProfileScr> {
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   image: new DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitWidth,
                     image: img.imgFile == null
                         ? new NetworkImage(img.url)
                         : FileImage(img.imgFile),
@@ -116,6 +126,9 @@ class _ActorProfileScrState extends State<ActorProfileScr> {
                 height: 15,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ButtonTheme(
                     minWidth: 10,
@@ -277,8 +290,13 @@ class _ActorProfileScrState extends State<ActorProfileScr> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ActorSideBarLayout(
-                                  screen: ActorDashboardScr()),
+                              builder: (context) => isAdmin
+                                  ? DirectorSideBarLayout(
+                                      screen: DirectorDashboardScr(),
+                                    )
+                                  : ActorSideBarLayout(
+                                      screen: ActorDashboardScr(),
+                                    ),
                             ),
                             (route) => false);
                       }

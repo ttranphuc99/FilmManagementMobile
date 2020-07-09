@@ -4,9 +4,9 @@ import 'package:film_management/src/blocs/authentication_bloc.dart';
 import 'package:film_management/src/blocs/logout_bloc.dart';
 import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/models/account.dart';
-import 'package:film_management/src/screens/actor/widgets/pages/actor_change_pass_scr.dart';
+import 'package:film_management/src/screens/guest/change_pass_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
-import 'package:film_management/src/screens/actor/widgets/pages/actor_profile_scr.dart';
+import 'package:film_management/src/screens/guest/profile_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_menu_item.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +70,10 @@ class _ActorSideBarState extends State<ActorSideBar>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ActorSideBarLayout(screen: ActorProfileScr()),
+                  builder: (context) => ActorSideBarLayout(
+                      screen: ProfileScr(
+                    isAdmin: false,
+                  )),
                 ),
               );
             },
@@ -93,7 +95,7 @@ class _ActorSideBarState extends State<ActorSideBar>
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   image: new DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitWidth,
                     image: new NetworkImage(account.image ?? DEFAULT_AVATAR),
                   ),
                 ),
@@ -121,96 +123,103 @@ class _ActorSideBarState extends State<ActorSideBar>
           bottom: 0,
           left: isSidebarOpenedAsync.data ? 0 : -screenWidth,
           right: isSidebarOpenedAsync.data ? 0 : screenWidth - 45,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  color: Color(0xFF00C853),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 50,
-                      ),
-                      buildProfile(),
-                      Divider(
-                        height: 32,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.3),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      ActorMenuItem(
-                        icon: Icons.home,
-                        title: "Home",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ActorSideBarLayout(
-                                    screen: ActorDashboardScr()),
-                              ),
-                              (route) => false);
-                        },
-                      ),
-                      Divider(
-                        height: 64,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.3),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      ActorMenuItem(
-                        icon: Icons.lock_open,
-                        title: "Change password",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ActorSideBarLayout(
-                                  screen: ActorChangePassScr()),
-                            ),
-                          );
-                        },
-                      ),
-                      ActorMenuItem(
-                        icon: Icons.exit_to_app,
-                        title: "Logout",
-                        onTap: () {
-                          print('btnLogout clicked');
-                          _logoutBloc.processLogout(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment(0, -0.9),
-                child: GestureDetector(
-                  onTap: () {
-                    onIconPress();
-                  },
-                  child: ClipPath(
-                    clipper: CustomMenuClipper(),
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).copyWith().size.height,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
                     child: Container(
-                      width: 35,
-                      height: 110,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       color: Color(0xFF00C853),
-                      alignment: Alignment.centerLeft,
-                      child: AnimatedIcon(
-                        progress: _controller.view,
-                        icon: AnimatedIcons.menu_close,
-                        color: Colors.white,
-                        size: 25,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 50,
+                          ),
+                          buildProfile(),
+                          Divider(
+                            height: 32,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          ActorMenuItem(
+                            icon: Icons.home,
+                            title: "Home",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ActorSideBarLayout(
+                                        screen: ActorDashboardScr()),
+                                  ),
+                                  (route) => false);
+                            },
+                          ),
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          ActorMenuItem(
+                            icon: Icons.lock_open,
+                            title: "Change password",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ActorSideBarLayout(
+                                      screen: ChangePassScr(
+                                    isAdmin: false,
+                                  )),
+                                ),
+                              );
+                            },
+                          ),
+                          ActorMenuItem(
+                            icon: Icons.exit_to_app,
+                            title: "Logout",
+                            onTap: () {
+                              print('btnLogout clicked');
+                              _logoutBloc.processLogout(context);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
+                  Align(
+                    alignment: Alignment(0, -0.9),
+                    child: GestureDetector(
+                      onTap: () {
+                        onIconPress();
+                      },
+                      child: ClipPath(
+                        clipper: CustomMenuClipper(),
+                        child: Container(
+                          width: 35,
+                          height: 110,
+                          color: Color(0xFF00C853),
+                          alignment: Alignment.centerLeft,
+                          child: AnimatedIcon(
+                            progress: _controller.view,
+                            icon: AnimatedIcons.menu_close,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         );
       },

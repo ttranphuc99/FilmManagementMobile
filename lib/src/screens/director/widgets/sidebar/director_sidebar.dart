@@ -10,6 +10,8 @@ import 'package:film_management/src/screens/director/widgets/pages/equipment/dir
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_manage_scenario.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_menu_item.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
+import 'package:film_management/src/screens/guest/change_pass_scr.dart';
+import 'package:film_management/src/screens/guest/profile_scr.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -65,26 +67,43 @@ class _DirectorSideBarState extends State<DirectorSideBar>
       builder: (context, accountData) {
         if (accountData.hasData) {
           var account = accountData.data as Account;
-          return ListTile(
-            title: Text(
-              account.fullname ?? "",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            subtitle: Text(
-              account.username ?? "",
-              style: TextStyle(
-                color: Color(0xFFB9F6CA),
-                fontSize: 15,
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DirectorSideBarLayout(
+                      screen: ProfileScr(
+                    isAdmin: true,
+                  )),
+                ),
+              );
+            },
+            child: ListTile(
+              title: Text(
+                account.fullname ?? "",
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-            ),
-            leading: Container(
-              width: 60,
-              height: 60,
-              decoration: new BoxDecoration(
-                shape: BoxShape.circle,
-                image: new DecorationImage(
-                  fit: BoxFit.fill,
-                  image: new NetworkImage(account.image != null && account.image.isNotEmpty ? account.image : DEFAULT_AVATAR),
+              subtitle: Text(
+                account.username ?? "",
+                style: TextStyle(
+                  color: Color(0xFFB9F6CA),
+                  fontSize: 15,
+                ),
+              ),
+              leading: Container(
+                width: 60,
+                height: 60,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: new NetworkImage(
+                        account.image != null && account.image.isNotEmpty
+                            ? account.image
+                            : DEFAULT_AVATAR),
+                  ),
                 ),
               ),
             ),
@@ -110,123 +129,144 @@ class _DirectorSideBarState extends State<DirectorSideBar>
           bottom: 0,
           left: isSidebarOpenedAsync.data ? 0 : -screenWidth,
           right: isSidebarOpenedAsync.data ? 0 : screenWidth - 45,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  color: Color(0xFF00C853),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 50,
-                      ),
-                      buildProfile(),
-                      Divider(
-                        height: 32,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.3),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      DirectorMenuItem(
-                        icon: Icons.home,
-                        title: "Dashboard",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DirectorSideBarLayout(
-                                    screen: DirectorDashboardScr()),
-                              ),
-                              (route) => false);
-                        },
-                      ),
-                      DirectorMenuItem(
-                        icon: Icons.person,
-                        title: "Manage Actor",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DirectorSideBarLayout(
-                                  screen: DirectorManageActorScr()),
-                            ),
-                          );
-                        },
-                      ),
-                      DirectorMenuItem(
-                        icon: Icons.camera_alt,
-                        title: "Manage Scenario",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DirectorSideBarLayout(
-                                  screen: DirectorManageScenario()),
-                            ),
-                          );
-                        },
-                      ),
-                      DirectorMenuItem(
-                        icon: Icons.highlight,
-                        title: "Manage Equipment",
-                        onTap: () {
-                          onIconPress();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DirectorSideBarLayout(
-                                  screen: DirectorManageEquipmentScr()),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(
-                        height: 64,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.3),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      DirectorMenuItem(
-                        icon: Icons.exit_to_app,
-                        title: "Logout",
-                        onTap: () {
-                          _logoutBloc.processLogout(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment(0, -0.9),
-                child: GestureDetector(
-                  onTap: () {
-                    onIconPress();
-                  },
-                  child: ClipPath(
-                    clipper: CustomMenuClipper(),
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).copyWith().size.height,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
                     child: Container(
-                      width: 35,
-                      height: 110,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       color: Color(0xFF00C853),
-                      alignment: Alignment.centerLeft,
-                      child: AnimatedIcon(
-                        progress: _controller.view,
-                        icon: AnimatedIcons.menu_close,
-                        color: Colors.white,
-                        size: 25,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 50,
+                          ),
+                          buildProfile(),
+                          Divider(
+                            height: 32,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.home,
+                            title: "Dashboard",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DirectorSideBarLayout(
+                                        screen: DirectorDashboardScr()),
+                                  ),
+                                  (route) => false);
+                            },
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.person,
+                            title: "Manage Actor",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DirectorSideBarLayout(
+                                      screen: DirectorManageActorScr()),
+                                ),
+                              );
+                            },
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.camera_alt,
+                            title: "Manage Scenario",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DirectorSideBarLayout(
+                                      screen: DirectorManageScenario()),
+                                ),
+                              );
+                            },
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.highlight,
+                            title: "Manage Equipment",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DirectorSideBarLayout(
+                                      screen: DirectorManageEquipmentScr()),
+                                ),
+                              );
+                            },
+                          ),
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.lock_open,
+                            title: "Change password",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DirectorSideBarLayout(
+                                      screen: ChangePassScr(
+                                    isAdmin: true,
+                                  )),
+                                ),
+                              );
+                            },
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.exit_to_app,
+                            title: "Logout",
+                            onTap: () {
+                              _logoutBloc.processLogout(context);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
+                  Align(
+                    alignment: Alignment(0, -0.9),
+                    child: GestureDetector(
+                      onTap: () {
+                        onIconPress();
+                      },
+                      child: ClipPath(
+                        clipper: CustomMenuClipper(),
+                        child: Container(
+                          width: 35,
+                          height: 110,
+                          color: Color(0xFF00C853),
+                          alignment: Alignment.centerLeft,
+                          child: AnimatedIcon(
+                            progress: _controller.view,
+                            icon: AnimatedIcons.menu_close,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         );
       },

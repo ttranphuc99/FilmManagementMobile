@@ -1,18 +1,27 @@
 import 'package:film_management/src/screens/actor/widgets/pages/actor_dashboard_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
+import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
+import 'package:film_management/src/screens/director/widgets/sidebar/director_sidebar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:film_management/src/blocs/change_pass_bloc.dart';
 
-class ActorChangePassScr extends StatefulWidget {
+class ChangePassScr extends StatefulWidget {
+  final bool isAdmin;
+
+  const ChangePassScr({Key key, this.isAdmin}) : super(key: key);
+
   @override
-  _ActorChangePassScrState createState() => _ActorChangePassScrState();
+  _ChangePassScrState createState() => _ChangePassScrState(isAdmin);
 }
 
-class _ActorChangePassScrState extends State<ActorChangePassScr> {
+class _ChangePassScrState extends State<ChangePassScr> {
+  final bool isAdmin;
   final _formKey = GlobalKey<FormState>();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   ChangePassBloc _bloc;
+
+  _ChangePassScrState(this.isAdmin);
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +118,13 @@ class _ActorChangePassScrState extends State<ActorChangePassScr> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ActorSideBarLayout(
-                                  screen: ActorDashboardScr()),
+                              builder: (context) => isAdmin
+                                  ? DirectorSideBarLayout(
+                                      screen: DirectorDashboardScr(),
+                                    )
+                                  : ActorSideBarLayout(
+                                      screen: ActorDashboardScr(),
+                                    ),
                             ),
                             (route) => false);
                       }
