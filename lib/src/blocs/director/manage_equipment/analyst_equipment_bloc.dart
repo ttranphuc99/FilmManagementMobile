@@ -22,28 +22,14 @@ class AnalystEquipmentBloc {
     _listEquipment.close();
   }
 
-  Future<List<Equipment>> getList() async {
+  Future<List<Equipment>> getList(String timeStart, String timeEnd) async {
     try {
-      var response = await _repo.getAllEquipment();
+      var response = await _repo.getListWithAvaiQuantity(timeStart, timeEnd);
 
       if (response.statusCode == 200) {
         var body = json.decode(response.body);
 
         _listData = body.map<Equipment>((equip) => Equipment.fromJSON(equip)).toList();
-
-        /*for (var item in _listData) {
-          var subResponse = await _repo.getAvailableQuantityEquipmentForScen(
-              scenarioId, model.equipment.id);
-
-          if (subResponse.statusCode == 200) {
-            model.equipmentAvailable = num.parse(subResponse.body);
-          } else {
-            MySnackbar.showSnackbar(_context, "Error from server");
-            return null;
-          }
-
-          result.add(model);
-        }*/
 
         _listEquipment.sink.add(_listData);
       } else {

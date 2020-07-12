@@ -80,13 +80,10 @@ class EquipmentProvider {
 
     print(url);
 
-    final response = await delete(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
-      }
-    );
+    final response = await delete(url, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    });
 
     print("${response.statusCode}");
     print("${response.body}");
@@ -112,6 +109,31 @@ class EquipmentProvider {
 
     print("${response.statusCode}");
     print("${response.body}");
+    return response;
+  }
+
+  Future<Response> getListWithAvaiQuantity(
+      String timeStart, String timeEnd) async {
+    String url = ProviderConstants.API_BASE +
+        "/api/equipments-available?timeStart=" +
+        timeStart +
+        "&timeEnd=" +
+        timeEnd;
+    String token = await ProviderConstants.getToken();
+
+    print(url);
+
+    final response = await get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    );
+
+    print("${response.statusCode}");
+    print("${response.body}");
+
     return response;
   }
 }
