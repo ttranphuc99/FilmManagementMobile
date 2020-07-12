@@ -6,6 +6,7 @@ import 'package:film_management/src/constants/env_variable.dart';
 import 'package:film_management/src/models/account.dart';
 import 'package:film_management/src/screens/director/widgets/pages/director_dashboard_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/actor/director_manage_actor_scr.dart';
+import 'package:film_management/src/screens/director/widgets/pages/equipment/director_analyst_equipment_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/equipment/director_manage_equipment_scr.dart';
 import 'package:film_management/src/screens/director/widgets/pages/scenario/director_manage_scenario.dart';
 import 'package:film_management/src/screens/director/widgets/sidebar/director_menu_item.dart';
@@ -203,6 +204,27 @@ class _DirectorSideBarState extends State<DirectorSideBar>
                                 MaterialPageRoute(
                                   builder: (context) => DirectorSideBarLayout(
                                       screen: DirectorManageEquipmentScr()),
+                                ),
+                              );
+                            },
+                          ),
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          DirectorMenuItem(
+                            icon: Icons.multiline_chart,
+                            title: "Analyst Equipment",
+                            onTap: () {
+                              onIconPress();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DirectorSideBarLayout(
+                                      screen: DirectorAnalystEquipmentScr()),
                                 ),
                               );
                             },

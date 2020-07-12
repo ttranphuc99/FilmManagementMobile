@@ -12,15 +12,15 @@ class ActorListScenarioBloc {
 
   ActorListScenarioBloc(this._context);
 
-  PublishSubject<ScenarioActor> _listScen = PublishSubject<ScenarioActor>();
+  PublishSubject<List<ScenarioActor>> _listScen = PublishSubject<List<ScenarioActor>>();
 
-  Observable<ScenarioActor> get listScen => _listScen.stream;
+  Observable<List<ScenarioActor>> get listScen => _listScen.stream;
 
   void close() {
     _listScen.close();
   }
 
-  Future<ScenarioActor> loadData() async {
+  Future<List<ScenarioActor>> loadData() async {
     try {
       var response = await _repo.getListScenOfActor();
 
