@@ -24,4 +24,9 @@ class EquipmentRepo {
   Future<Response> deleteEquipment(num id) {
     return _provider.deleteEquipment(id);
   }
+  Future<Response> getListWithAvaiQuantity(
+      String timeStart, String timeEnd) {
+    
+    return _provider.getListWithAvaiQuantity(timeStart, timeEnd);
+  }
 }

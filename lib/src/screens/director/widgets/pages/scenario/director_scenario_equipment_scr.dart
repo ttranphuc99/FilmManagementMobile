@@ -116,9 +116,11 @@ class _DirectorScenarioEquipmentScrState
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: equipScen.equipmentAvailable >= equipScen.quantity
-            ? Color(0xFFE6EE9C)
-            : Color(0xFFFFCCBC),
+        color: equipScen.equipmentAvailable < equipScen.quantity &&
+                equipScen.scenario.status != -1 &&
+                equipScen.scenario.status != 2
+            ? Color(0xFFFFCCBC)
+            : Color(0xFFE6EE9C),
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
@@ -128,7 +130,7 @@ class _DirectorScenarioEquipmentScrState
           ),
         ],
       ),
-      height: 110,
+      height: 130,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
@@ -166,7 +168,30 @@ class _DirectorScenarioEquipmentScrState
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
+                ),
+                (() {
+                  if (equipScen.equipmentAvailable < equipScen.quantity &&
+                    equipScen.scenario.status != -1 &&
+                    equipScen.scenario.status != 2) {
+                      
+                      return Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Current Available Quantity: ' + equipScen.equipmentAvailable.toString(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF212121),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                  }
+
+                  return Container(width: 0, height: 0,);
+                } ()),
+                SizedBox(
+                  height: 5,
                 ),
                 Container(
                   alignment: Alignment.topLeft,
@@ -340,7 +365,7 @@ class _DirectorScenarioEquipmentScrState
                       });
                     } else {
                       await this._validateQuantity(_quantityController.text,
-                        this.currentEquipmentChoose.id);
+                          this.currentEquipmentChoose.id);
                     }
 
                     if (_formKey.currentState.validate() &&

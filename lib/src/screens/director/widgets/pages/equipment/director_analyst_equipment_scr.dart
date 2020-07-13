@@ -30,7 +30,6 @@ class _DirectorAnalystEquipmentScrState
   @override
   Widget build(BuildContext context) {
     _listBloc = AnalystEquipmentBloc(context);
-    _listBloc.getList();
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -71,23 +70,11 @@ class _DirectorAnalystEquipmentScrState
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
-                              ),
-                            ),
-                            SizedBox(width: 15),
-                            ButtonTheme(
-                              minWidth: 10,
-                              buttonColor: Color(0xFF00C853),
-                              child: RaisedButton(
-                                child: Container(
-                                  child: Text(
-                                    "Reset",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  print('start ' + timeStart);
+                                  print('end ' + timeEnd);
+                                  _listBloc.getList(timeStart, timeEnd);
+                                },
                               ),
                             ),
                           ],
@@ -100,7 +87,7 @@ class _DirectorAnalystEquipmentScrState
                             var listWidget = <Widget>[];
 
                             if (snapshot.data.isEmpty) {
-                              return Text("Not found any equipments!");
+                              return Text("Enter time to search");
                             }
                             snapshot.data.forEach((equip) {
                               listWidget.add(
@@ -111,33 +98,12 @@ class _DirectorAnalystEquipmentScrState
                               children: listWidget,
                             );
                           }
-                          return Text("Loading...");
+                          return Text("Enter time to start");
                         },
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: AlignmentDirectional.bottomEnd,
-            child: Container(
-              padding: EdgeInsets.all(20),
-              child: FloatingActionButton(
-                child: Icon(Icons.add),
-                backgroundColor: Color(0xFF00C853),
-                onPressed: () {
-                  print('btnAdd Clicked');
-                  Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => DirectorSideBarLayout(
-                              screen: DirectorAddEquipmentScr()),
-                        ),
-                      )
-                      .then((value) => _listBloc.getList());
-                },
               ),
             ),
           ),
@@ -205,7 +171,7 @@ class _DirectorAnalystEquipmentScrState
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: equipment.status ? Color(0xFFE6EE9C) : Color(0xFFFFCCBC),
+        color: equipment.quantity > 0 ? Color(0xFFE6EE9C) : Color(0xFFFFCCBC),
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
@@ -228,7 +194,7 @@ class _DirectorAnalystEquipmentScrState
                         equipmentId: equipment.id,
                       ),
                     )),
-          ).then((value) => _listBloc.getList());
+          ).then((value) => _listBloc.getList(timeStart, timeEnd));
         },
         child: Row(
           children: <Widget>[
