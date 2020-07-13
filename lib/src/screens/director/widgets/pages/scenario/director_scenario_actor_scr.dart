@@ -149,7 +149,7 @@ class _DirectorScenarioActorScrState extends State<DirectorScenarioActorScr> {
                             decoration: new BoxDecoration(
                               shape: BoxShape.circle,
                               image: new DecorationImage(
-                                fit: BoxFit.fill,
+                                fit: BoxFit.fitWidth,
                                 image: new NetworkImage(
                                     account.actor.image != null &&
                                             account.actor.image.isNotEmpty

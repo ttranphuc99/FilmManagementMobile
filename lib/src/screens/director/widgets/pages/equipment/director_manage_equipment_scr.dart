@@ -186,7 +186,7 @@ class _DirectorManageEquipmentScrState
                         decoration: new BoxDecoration(
                           shape: BoxShape.circle,
                           image: new DecorationImage(
-                            fit: BoxFit.fill,
+                            fit: BoxFit.fitWidth,
                             image: new NetworkImage(
                                 equipment.listImages != null &&
                                         equipment.listImages.isNotEmpty

@@ -106,6 +106,7 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
             TextFormField(
               cursorColor: Color(0xFF00C853),
               controller: _nameController,
+              enabled: false,
               decoration: InputDecoration(
                 labelText: "Name",
               ),
@@ -119,6 +120,7 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
             TextFormField(
               cursorColor: Color(0xFF00C853),
               controller: _descriptionController,
+              enabled: false,
               decoration: InputDecoration(
                 labelText: "Description",
               ),
@@ -126,6 +128,7 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
             TextFormField(
               cursorColor: Color(0xFF00C853),
               controller: _locationController,
+              enabled: false,
               decoration: InputDecoration(
                 labelText: "Location",
               ),
@@ -134,6 +137,7 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
               cursorColor: Color(0xFF00C853),
               controller: _recordQuantityController,
               keyboardType: TextInputType.number,
+              enabled: false,
               decoration: InputDecoration(
                 labelText: "Record Quantity",
               ),
@@ -146,49 +150,24 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
             ),
             ListTile(
               title: Text("Time start:"),
-              subtitle: Text(
-                  timeStart.substring(0, 10) + " " + timeStart.substring(11, 16)),
+              subtitle: Text(timeStart.substring(0, 10) +
+                  " " +
+                  timeStart.substring(11, 16)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
               ),
-              onTap: () {
-                _pickDateTime(timeStart).then((value) => this.setState(() {
-                      timeStart = value;
-                    }));
-              },
+              onTap: () {},
             ),
             ListTile(
               title: Text("Time end:"),
-              subtitle:
-                  Text(timeEnd.substring(0, 10) + " " + timeEnd.substring(11, 16)),
+              subtitle: Text(
+                  timeEnd.substring(0, 10) + " " + timeEnd.substring(11, 16)),
               trailing: Icon(
                 Icons.calendar_today,
                 color: Color(0xFF00C853),
               ),
-              onTap: () {
-                _pickDateTime(timeEnd).then((value) {
-                  var endFormat =
-                      value.substring(0, 10) + " " + value.substring(11, 16);
-                  var startFormat = timeStart.substring(0, 10) +
-                      " " +
-                      timeStart.substring(11, 16);
-
-                  DateTime start =
-                      DateFormat("yyyy-MM-dd hh:mm").parse(startFormat);
-                  DateTime end =
-                      DateFormat("yyyy-MM-dd hh:mm").parse(endFormat);
-
-                  if (end.isBefore(start)) {
-                    MySnackbar.showSnackbar(
-                        context, "Time End is before Time Start!");
-                  } else {
-                    this.setState(() {
-                      timeEnd = value;
-                    });
-                  }
-                });
-              },
+              onTap: () {},
             ),
             ListTile(
               title: Text("Script:"),
@@ -197,27 +176,7 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
                 Icons.file_upload,
                 color: Color(0xFF00C853),
               ),
-              onTap: () {
-                FilePicker.getFile().then((file) {
-                  var filename =
-                      file.path.substring(file.path.lastIndexOf('/') + 1);
-                  var extendsion =
-                      filename.substring(filename.lastIndexOf('.') + 1);
-
-                  if (extendsion != 'pdf' && extendsion != 'doc') {
-                    MySnackbar.showSnackbar(
-                        context, "File extension is not allow");
-                    return;
-                  }
-
-                  setState(() {
-                    fileChanged = true;
-                    script.filename = filename;
-                    script.fileExtension = extendsion;
-                    script.file = file;
-                  });
-                });
-              },
+              onTap: () {},
             ),
             Container(
               height: 25,
@@ -323,78 +282,32 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
             activeColor: Color(0xFF00C853),
             title: Text("Hủy"),
             groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
+            onChanged: (value) {},
           ),
           RadioListTile(
             value: 0,
             activeColor: Color(0xFF00C853),
             title: Text("Đang chờ"),
             groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
+            onChanged: (value) {},
           ),
           RadioListTile(
             value: 1,
             activeColor: Color(0xFF00C853),
             title: Text("Đang quay"),
             groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
+            onChanged: (value) {},
           ),
           RadioListTile(
             value: 2,
             activeColor: Color(0xFF00C853),
             title: Text("Hoàn thành"),
             groupValue: status,
-            onChanged: (value) {
-              this.setState(() {
-                status = value;
-              });
-              print(status.toString());
-            },
+            onChanged: (value) {},
           ),
         ],
       ),
     );
-  }
-
-  Future<String> _pickDateTime(String current) async {
-    if (current.isEmpty) current = DateTime.now().toString();
-
-    DateTime defaultDate = DateTime.parse(current);
-    TimeOfDay defaultTime = TimeOfDay.fromDateTime(defaultDate);
-
-    DateTime date = await showDatePicker(
-      context: context,
-      initialDate: defaultDate,
-      firstDate: DateTime(defaultDate.year - 5),
-      lastDate: DateTime(defaultDate.year + 5),
-    );
-
-    TimeOfDay time = await showTimePicker(
-      context: context,
-      initialTime: defaultTime,
-    );
-
-    String strDate = date.toString().substring(0, 11);
-    String timeHour = time.toString().substring(10, 12);
-    String timeMinute = time.toString().substring(13, 15);
-
-    strDate = strDate + timeHour + ":" + timeMinute;
-    return strDate;
   }
 
   void loadData() async {
@@ -427,64 +340,5 @@ class _ActorScenarioDetailScrState extends State<ActorScenarioDetailScr> {
               ? scenarioData.recordQuantity.toString()
               : "0";
     });
-  }
-
-  void _showProcessingDialog() {
-    showDialog(
-      context: this.context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Processing"),
-          content: Container(
-            height: 80,
-            child: Center(
-              child: Column(children: [
-                CircularProgressIndicator(),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Please Wait....",
-                  style: TextStyle(color: Colors.blueAccent),
-                )
-              ]),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showDialogConfirmDelete() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Confirm Delete"),
-          content:
-              new Text("Do you want to delete scence " + scenarioData.name),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new FlatButton(
-              child: new Text("Yes"),
-              onPressed: () {
-                _detailBloc.deleteScence(scenarioId).then((value) {
-                  Navigator.of(context).pop();
-                });
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

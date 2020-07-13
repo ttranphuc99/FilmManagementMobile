@@ -20,25 +20,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final FirebaseMessaging _firebaseMess = FirebaseMessaging();
-  Map<String,dynamic> noti;
-  
+  Map<String, dynamic> noti;
+
   @override
   void initState() {
     super.initState();
     _firebaseMess.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print(message);
-        print('b4');
-        MySnackbar.showSnackbar(context, "Content of noti");
-        print('affter');
       },
-      onLaunch: (message) async {
-        
-      },
-      onResume: (message) async {
-        
-      },
-    );    
+      onLaunch: (message) async {},
+      onResume: (message) async {},
+    );
   }
 
   void _showProcessingDialog() {
@@ -93,7 +85,7 @@ class _MyAppState extends State<MyApp> {
         }
         return StreamBuilder<int>(
           stream: authBloc.currentRole,
-          builder: (context, AsyncSnapshot<int> snapshot){
+          builder: (context, AsyncSnapshot<int> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == AccountConstant.ROLE_DIRECTOR) {
                 return DirectorSideBarLayout();
