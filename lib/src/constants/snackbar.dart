@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MySnackbar {
   static void showSnackbar(BuildContext context, String message) {
     Scaffold.of(context).hideCurrentSnackBar();
-
+    print('insnow');
     if (message != null && message.trim().length > 0) {
       Scaffold.of(context).showSnackBar(
         SnackBar(

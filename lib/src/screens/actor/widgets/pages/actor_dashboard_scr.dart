@@ -2,7 +2,6 @@ import 'package:film_management/src/blocs/actor/actor_list_scenario_bloc.dart';
 import 'package:film_management/src/models/scenario_actor.dart';
 import 'package:film_management/src/screens/actor/widgets/pages/actor_scenario_info_scr.dart';
 import 'package:film_management/src/screens/actor/widgets/sidebar/actor_sidebar_layout.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ActorDashboardScr extends StatefulWidget {
@@ -12,26 +11,10 @@ class ActorDashboardScr extends StatefulWidget {
 
 class _ActorDashboardScrState extends State<ActorDashboardScr> {
   ActorListScenarioBloc _bloc;
-  final FirebaseMessaging _firebaseMess = FirebaseMessaging();
-
+  
   @override
   void initState() {
     super.initState();
-    try {
-      _firebaseMess.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          this._showProcessingDialog(message['message']);
-        },
-        onLaunch: (message) async {
-          print('lauch');
-        },
-        onResume: (message) async {
-          print('resume');
-        },
-      );
-    } catch (e) {
-      print(e);
-    }
     _bloc = ActorListScenarioBloc(context);
     _bloc.loadData();
   }
@@ -215,32 +198,5 @@ class _ActorDashboardScrState extends State<ActorDashboardScr> {
         return "Hoàn thành";
     }
     return result;
-  }
-
-  void _showProcessingDialog(String mess) {
-    showDialog(
-      context: this.context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Processing"),
-          content: Container(
-            height: 80,
-            child: Center(
-              child: Column(children: [
-                CircularProgressIndicator(),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Please Wait.... " + mess,
-                  style: TextStyle(color: Colors.blueAccent),
-                )
-              ]),
-            ),
-          ),
-        );
-      },
-    );
   }
 }
