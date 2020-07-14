@@ -12,6 +12,8 @@ class ActorDashboardScr extends StatefulWidget {
 class _ActorDashboardScrState extends State<ActorDashboardScr> {
   ActorListScenarioBloc _bloc;
   
+  
+  
   @override
   void initState() {
     super.initState();
